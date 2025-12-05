@@ -1,0 +1,135 @@
+/* -------------------------------
+   BODY & SCENE
+---------------------------------*/
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+}
+
+a-scene {
+  width: 100%;
+  height: 100vh;
+}
+
+/* -------------------------------
+   TOP GREY BAR (MENU + PLAY/PAUSE)
+---------------------------------*/
+#topBar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 55px;  /* Taller for better spacing */
+  background: rgba(60, 60, 60, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  z-index: 9999;
+  color: white;
+  font-size: 18px;
+}
+
+/* MENU LEFT */
+#menuLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+#menuIcon {
+  font-size: 24px;
+  cursor: pointer;
+}
+
+#currentVideoName {
+  font-weight: bold;
+}
+
+/* DROPDOWN MENU */
+#videoMenu {
+  position: fixed;
+  top: 55px; /* BELOW TOP BAR */
+  left: 0;
+  width: 240px;
+  background: rgba(100, 100, 100, 0.98);
+  color: white;
+  z-index: 9999;
+  display: none;
+  border-right: 1px solid #333;
+}
+
+#videoMenu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#videoMenu ul li {
+  padding: 12px 16px;
+  cursor: pointer;
+  border-bottom: 1px solid #444;
+}
+
+#videoMenu ul li:hover {
+  background: rgba(255,255,255,0.15);
+}
+
+/* RIGHT SIDE — PLAY/PAUSE */
+#menuRight {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-right: 20px;   /* ← INCREASE RIGHT PADDING */
+}
+
+/* PLAY/PAUSE BUTTON */
+#autoRotateBtn {
+  background: rgba(0, 0, 0, 0.7);
+  border: none;
+  border-radius: 6px;
+  padding: 8px;
+  cursor: pointer;
+}
+
+#autoRotateBtn img {
+  width: 30px;
+  height: 36px;
+}
+
+/* -------------------------------
+   VIEW CONTROL BUTTONS (BOTTOM CENTER)
+---------------------------------*/
+.view-control-buttons {
+  position: fixed;
+  bottom: 20px;   /* SIT AT BOTTOM */
+  left: 50%;      /* CENTER HORIZONTALLY */
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px;
+  z-index: 9999;
+}
+
+.viewControlButton {
+  width: 40px;
+  height: 40px;
+  background: rgba(0,0,0,0.6);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.viewControlButton img {
+  width: 26px;
+  height: 26px;
+  pointer-events: none;
+}
+
+.viewControlButton:hover {
+  transform: scale(1.15);
+  transition: 0.2s;
+}

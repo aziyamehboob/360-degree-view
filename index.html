@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>360° Video Tour</title>
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <script src="js/index.js" defer></script>
+  <script src="js/hotspot.js" defer></script>
+  <script src="js/infoicons.js" defer></script>
+
+</head>
+<body>
+
+  <!-- MENU BAR -->
+<!-- TOP BAR -->
+<div id="topBar">
+
+  <!-- LEFT SIDE -->
+  <div id="menuLeft">
+    <div id="menuIcon">☰</div>
+    <div id="currentVideoName">Scenes</div>
+  </div>
+
+  <!-- RIGHT SIDE -->
+  <div id="menuRight">
+    <button id="autoRotateBtn">
+      <img id="autoRotateIcon" src="assets/img/pause.png" alt="Pause">
+    </button>
+  </div>
+
+</div>
+
+<!-- DROPDOWN MENU -->
+<div id="videoMenu">
+  <ul>
+    <li class="menu-item" data-video="vid1" data-group="group-vid1" data-rotation="0 -90 0">Entrance</li>
+    <li class="menu-item" data-video="vid2" data-group="group-vid2" data-rotation="0 -40 0">Collaboration Tables</li>
+    <li class="menu-item" data-video="vid3" data-group="group-vid3" data-rotation="0 -60 0">Lego Table</li>
+    <li class="menu-item" data-video="vid4" data-group="group-vid4" data-rotation="0 -20 0">Workstations</li>
+    <li class="menu-item" data-video="vid5" data-group="group-vid5" data-rotation="0 -100 0">Interactive Screen</li>
+  </ul>
+</div>
+<!-- View Control Buttons -->
+<div class="view-control-buttons">
+  <div id="viewUp" class="viewControlButton viewControlButton-1">
+    <img class="icon" src="assets/img/up.png" alt="Up">
+  </div>
+  <div id="viewDown" class="viewControlButton viewControlButton-2">
+    <img class="icon" src="assets/img/down.png" alt="Down">
+  </div>
+  <div id="viewLeft" class="viewControlButton viewControlButton-3">
+    <img class="icon" src="assets/img/left.png" alt="Left">
+  </div>
+  <div id="viewRight" class="viewControlButton viewControlButton-4">
+    <img class="icon" src="assets/img/right.png" alt="Right">
+  </div>
+  <div id="viewIn" class="viewControlButton viewControlButton-5">
+    <img class="icon" src="assets/img/plus.png" alt="Zoom In">
+  </div>
+  <div id="viewOut" class="viewControlButton viewControlButton-6">
+    <img class="icon" src="assets/img/minus.png" alt="Zoom Out">
+  </div>
+</div>
+  <!-- A-FRAME SCENE -->
+  <a-scene embedded>
+
+    <!-- ASSETS -->
+    <a-assets>
+      <a-asset-item id="arrowModel" src="assets/img/models/arrow.glb"></a-asset-item>
+      <a-asset-item id="iconModel" src="assets/img/models/info-icon.glb"></a-asset-item>
+
+      <!-- Videos -->
+      <video id="vid1" src="Videos/overall_view.MP4" loop muted crossorigin="anonymous"></video>
+      <video id="vid2" src="Videos/collaboration_tables.MP4" loop muted></video>
+      <video id="vid3" src="Videos/lego_table.MP4" loop muted></video>
+      <video id="vid4" src="Videos/work_stations.MP4" loop muted></video>
+      <video id="vid5" src="Videos/interactive_screen.mp4" loop muted></video>
+
+      <a-mixin id="hotspot-text"
+               geometry="primitive: plane; width: 1.5; height: 0.45"
+               material="color: #333; opacity: 0.85"
+               text="font: roboto; color: white; align: center; width: 1.5; wrapCount: 15; baseline: center">
+      </a-mixin>
+    </a-assets>
+
+    <!-- HOTSPOTS CONTAINER -->
+  <a-entity id="spots" hotspots>
+
+    <!-- GROUP vid1 -->
+    <a-entity id="group-vid1" scale="1 1 1">
+    <!-- Collaboration Tables (Left) -->
+    <a-gltf-model class="clickable hotspot"
+                  gltf-model="#arrowModel"
+                  spot="linkto:#vid2; spotgroup:group-vid2; videoname: Collaboration Tables"
+                 hotspot-hover-label="offset: 0 1.8 0; scale: 3"
+                  position="-6.45 -0.31 2.21"
+                  rotation="-0.05 11.65 -9.06"
+                  scale="0.26 0.26 0.26"
+                  data-name="Collaboration Tables">
+    </a-gltf-model>
+
+ <a-gltf-model class="clickable hotspot"
+                    spot="linkto:#vid3; spotgroup:group-vid3; videoname: Lego Table"
+                     hotspot-hover-label="offset: 0 1.5 0; scale: 3"
+                    src="#arrowModel"
+                     position="-4.5 0.48 -8.6" 
+                     rotation="1.16 -70 11" 
+                    scale="0.26 0.26 0.26"
+                    data-name="Lego Table">
+      </a-gltf-model>
+            <a-gltf-model class="clickable hotspot"
+                    spot="linkto:#vid4; spotgroup:group-vid4; videoname: workstations"
+                   hotspot-hover-label="offset:0 2 0; scale: 3"
+                    src="#arrowModel"
+                position="-15 -1.21 -9.5" 
+                   rotation="6 -25 169"
+                    scale="0.26 0.26 0.26"
+                    data-name="workstations">
+      </a-gltf-model>
+<a-gltf-model 
+    class="clickable hotspot"
+    spot="linkto:#vid5; spotgroup:group-vid5; videoname: Screen"
+      hotspot-hover-label="offset: 0 1 0; scale: 3"
+    src="#arrowModel"
+    position="-1 -1 12"   
+    rotation="0 90 0"
+    scale="0.26 0.26 0.26"
+    data-name="Screen">
+</a-gltf-model>
+    </a-entity>
+
+    <!-- GROUP vid2 -->
+    <a-entity id="group-vid2" scale="0 0 0">
+          <a-entity infoicon="text: Collaboration area details here; model: #iconModel"
+            position="-4 0.8 -2"
+            class="clickable">
+  </a-entity>
+      <a-gltf-model class="clickable hotspot"
+                    spot="linkto:#vid1; spotgroup:group-vid1; videoname: Entrance"
+                    hotspot-hover-label
+                    src="#arrowModel"
+                    position="0 1.6 3"
+                    rotation="0 0 0"
+                    scale="0.5 0.5 0.5"
+                    data-name="Entrance">
+      </a-gltf-model>
+
+      <a-gltf-model class="clickable hotspot"
+                    spot="linkto:#vid3; spotgroup:group-vid3; videoname: Lego Table"
+                    hotspot-hover-label
+                    src="#arrowModel"
+                    position="-1 1.6 -3"
+                    rotation="0 90 0"
+                    scale="0.5 0.5 0.5"
+                    data-name="Lego Table">
+      </a-gltf-model>
+            <a-gltf-model class="clickable hotspot"
+                    spot="linkto:#vid4; spotgroup:group-vid4; videoname: workstations"
+                    hotspot-hover-label
+                    src="#arrowModel"
+                    position="-1 1.6 -3"
+                    rotation="0 90 0"
+                    scale="0.5 0.5 0.5"
+                    data-name="workstations">
+      </a-gltf-model>
+            <a-gltf-model class="clickable hotspot"
+                    spot="linkto:#vid5; spotgroup:group-vid5; videoname: Screen"
+                    hotspot-hover-label
+                    src="#arrowModel"
+                    position="-1 1.6 -3"
+                    rotation="0 90 0"
+                    scale="0.5 0.5 0.5"
+                    data-name="screen">
+      </a-gltf-model>
+    </a-entity>
+
+          <!-- GROUP vid3 -->
+    <a-entity id="group-vid3" scale="0 0 0">
+      <a-gltf-model class="clickable hotspot"
+                    spot="linkto:#vid2; spotgroup:group-vid2; videoname: Collaboration Tables"
+                    hotspot-hover-label
+                    src="#arrowModel"
+                    position="1 1.6 -3"
+                    rotation="0 180 0"
+                    scale="0.5 0.5 0.5"
+                    data-name="Collaboration Tables">
+      </a-gltf-model>
+
+ 
+            <a-gltf-model class="clickable hotspot"
+                    spot="linkto:#vid4; spotgroup:group-vid4; videoname: workstations"
+                    hotspot-hover-label
+                    src="#arrowModel"
+                    position="-1 1.6 -3"
+                    rotation="0 90 0"
+                    scale="0.5 0.5 0.5"
+                    data-name="workstations">
+      </a-gltf-model>
+            <a-gltf-model class="clickable hotspot"
+                    spot="linkto:#vid5; spotgroup:group-vid5; videoname: Screen"
+                    hotspot-hover-label
+                    src="#arrowModel"
+                    position="-1 1.6 -3"
+                    rotation="0 90 0"
+                    scale="0.5 0.5 0.5"
+                    data-name="screen">
+      </a-gltf-model>
+    </a-entity>
+          <!-- GROUP vid4 -->
+    <a-entity id="group-vid4" scale="0 0 0">
+      <a-gltf-model class="clickable hotspot"
+                    spot="linkto:#vid2; spotgroup:group-vid2; videoname: Collaboration Tables"
+                    hotspot-hover-label
+                    src="#arrowModel"
+                    position="1 1.6 -3"
+                    rotation="0 180 0"
+                    scale="0.5 0.5 0.5"
+                    data-name="Collaboration Tables">
+      </a-gltf-model>
+
+      <a-gltf-model class="clickable hotspot"
+                    spot="linkto:#vid3; spotgroup:group-vid3; videoname: Lego Table"
+                    hotspot-hover-label
+                    src="#arrowModel"
+                    position="-1 1.6 -3"
+                    rotation="0 90 0"
+                    scale="0.5 0.5 0.5"
+                    data-name="Lego Table">
+      </a-gltf-model>
+            <a-gltf-model class="clickable hotspot"
+                    spot="linkto:#vid4; spotgroup:group-vid4; videoname: workstations"
+                    hotspot-hover-label
+                    src="#arrowModel"
+                    position="-1 1.6 -3"
+                    rotation="0 90 0"
+                    scale="0.5 0.5 0.5"
+                    data-name="workstations">
+      </a-gltf-model>
+            <a-gltf-model class="clickable hotspot"
+                    spot="linkto:#vid5; spotgroup:group-vid5; videoname: Screen"
+                    hotspot-hover-label
+                    src="#arrowModel"
+                    position="-1 1.6 -3"
+                    rotation="0 90 0"
+                    scale="0.5 0.5 0.5"
+                    data-name="screen">
+      </a-gltf-model>
+    </a-entity>
+             <!-- GROUP vid5 -->
+    <a-entity id="group-vid5" scale="0 0 0">
+
+      <a-gltf-model class="clickable hotspot"
+                    spot="linkto:#vid2; spotgroup:group-vid2; videoname: Collaboration Tables"
+                    hotspot-hover-label
+                    src="#arrowModel"
+                    position="1 1.6 -3"
+                    rotation="0 180 0"
+                    scale="0.5 0.5 0.5"
+                    data-name="Collaboration Tables">
+      </a-gltf-model>
+
+      <a-gltf-model class="clickable hotspot"
+                    spot="linkto:#vid3; spotgroup:group-vid3; videoname: Lego Table"
+                    hotspot-hover-label
+                    src="#arrowModel"
+                    position="-1 1.6 -3"
+                    rotation="0 90 0"
+                    scale="0.5 0.5 0.5"
+                    data-name="Lego Table">
+      </a-gltf-model>
+            <a-gltf-model class="clickable hotspot"
+                    spot="linkto:#vid4; spotgroup:group-vid4; videoname: workstations"
+                    hotspot-hover-label
+                    src="#arrowModel"
+                    position="-1 1.6 -3"
+                    rotation="0 90 0"
+                    scale="0.5 0.5 0.5"
+                    data-name="workstations">
+      </a-gltf-model>
+    </a-entity>
+    </a-entity>
+
+  <!-- CAMERA -->
+<a-entity id="pivot" rotation="0 0 0" auto-rotate-pivot="speed: 2">
+  <a-entity id="cam" camera look-controls="enabled: false">
+    <a-entity cursor="fuse:false; rayOrigin:mouse" raycaster="objects:.clickable"></a-entity>
+  </a-entity>
+</a-entity>
+
+  <!-- 360 VIDEO SPHERE -->
+  <a-videosphere id="videosphere" src="#vid1" ></a-videosphere>
+
+</a-scene>
+</body>
+</html>
