@@ -17,14 +17,14 @@ const visitedVideos = new Set();
 // ----------------------------
 function setActiveTab(videoId) {
   tabs.forEach(tab => {
-    if (tab.dataset.video === videoId.replace('#','')) {
+    if (tab.dataset.video === videoId.replace('#', '')) {
       tab.classList.add("active");
       tab.classList.remove("visited");
     } else if (visitedVideos.has(tab.dataset.video)) {
       tab.classList.add("visited");
       tab.classList.remove("active");
     } else {
-      tab.classList.remove("active","visited");
+      tab.classList.remove("active", "visited");
     }
   });
 }
@@ -32,14 +32,14 @@ function setActiveTab(videoId) {
 // ----------------------------
 // CHANGE VIDEO FUNCTION
 // ----------------------------
-window.changeVideo = function(videoId, groupId, videoName, rotation) {
+window.changeVideo = function (videoId, groupId, videoName, rotation) {
   const vidEl = document.querySelector(videoId);
   videosphere.setAttribute("src", videoId);
   if (vidEl) vidEl.play();
 
   if (rotation) {
-      const rot = rotation.split(" ").map(Number);
-      pivot.setAttribute("rotation", `${rot[0]} ${rot[1]} ${rot[2]}`);
+    const rot = rotation.split(" ").map(Number);
+    pivot.setAttribute("rotation", `${rot[0]} ${rot[1]} ${rot[2]}`);
   }
 
   isAutorotating = true;
@@ -51,7 +51,7 @@ window.changeVideo = function(videoId, groupId, videoName, rotation) {
   const groupEl = document.getElementById(groupId);
   if (groupEl) groupEl.setAttribute("scale", "1 1 1");
 
-  visitedVideos.add(videoId.replace('#',''));
+  visitedVideos.add(videoId.replace('#', ''));
   setActiveTab(videoId);
 }
 
@@ -94,7 +94,7 @@ if (startBtn) {
 // AUTO-ROTATE LOGIC
 // ----------------------------
 function updateButton() {
-  autoRotateIcon.src = isAutorotating ? "assets/img/pause.png" : "assets/img/play.png";
+  autoRotateIcon.src = isAutorotating ? "assets/images/pause.png" : "assets/images/play.png";
   cam.setAttribute("look-controls", "enabled", !isAutorotating);
 }
 
@@ -122,6 +122,6 @@ AFRAME.registerComponent("auto-rotate-pivot", {
 });
 
 function stopAutoRotate() {
-    isAutorotating = false;
-    updateButton();
+  isAutorotating = false;
+  updateButton();
 }

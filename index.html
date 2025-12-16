@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <title>360° Video Tour</title>
   <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="css/style.css">
   <script src="js/index.js" defer></script>
   <script src="js/hotspot.js" defer></script>
   <script src="js/infoicons.js" defer></script>
@@ -23,7 +23,7 @@
     <!-- Map Background & Dots -->
     <div class="start-screen-bg">
       <!-- 3D Isometric Map Image -->
-      <img src="assets/img/3d_map.png" alt="Campus Map" class="map-image">
+      <img src="assets/images/3d_map.png" alt="Campus Map" class="map-image">
 
       <!-- Interactive Dots (Positioned for Isometric Layout) -->
 
@@ -166,7 +166,7 @@
 
     <div id="menuRight">
       <button id="autoRotateBtn">
-        <img id="autoRotateIcon" src="assets/img/pause.png" alt="Pause">
+        <img id="autoRotateIcon" src="assets/images/pause.png" alt="Pause">
       </button>
       <button id="endTourBtn">End Tour</button>
     </div>
@@ -184,22 +184,22 @@
   <!-- View Control Buttons -->
   <div class="view-control-buttons">
     <div id="viewUp" class="viewControlButton viewControlButton-1">
-      <img class="icon" src="assets/img/up.png" alt="Up">
+      <img class="icon" src="assets/images/up.png" alt="Up">
     </div>
     <div id="viewDown" class="viewControlButton viewControlButton-2">
-      <img class="icon" src="assets/img/down.png" alt="Down">
+      <img class="icon" src="assets/images/down.png" alt="Down">
     </div>
     <div id="viewLeft" class="viewControlButton viewControlButton-3">
-      <img class="icon" src="assets/img/left.png" alt="Left">
+      <img class="icon" src="assets/images/left.png" alt="Left">
     </div>
     <div id="viewRight" class="viewControlButton viewControlButton-4">
-      <img class="icon" src="assets/img/right.png" alt="Right">
+      <img class="icon" src="assets/images/right.png" alt="Right">
     </div>
     <div id="viewIn" class="viewControlButton viewControlButton-5">
-      <img class="icon" src="assets/img/plus.png" alt="Zoom In">
+      <img class="icon" src="assets/images/plus.png" alt="Zoom In">
     </div>
     <div id="viewOut" class="viewControlButton viewControlButton-6">
-      <img class="icon" src="assets/img/minus.png" alt="Zoom Out">
+      <img class="icon" src="assets/images/minus.png" alt="Zoom Out">
     </div>
   </div>
   <!-- A-FRAME SCENE -->
@@ -211,11 +211,11 @@
       <a-asset-item id="iconModel" src="assets/models/info-icon.glb"></a-asset-item>
 
       <!-- Videos -->
-      <video id="vid1" src="Videos/overall_view.mp4" loop muted crossorigin="anonymous"></video>
-      <video id="vid2" src="Videos/collaboration_tables.MP4" loop muted></video>
-      <video id="vid3" src="Videos/lego_table.MP4" loop muted></video>
-      <video id="vid4" src="Videos/work_stations.MP4" loop muted></video>
-      <video id="vid5" src="Videos/interactive_screen.mp4" loop muted></video>
+      <video id="vid1" src="assets/videos/overall_view.mp4" loop muted crossorigin="anonymous"></video>
+      <video id="vid2" src="assets/videos/collaboration_tables.MP4" loop muted></video>
+      <video id="vid3" src="assets/videos/lego_table.MP4" loop muted></video>
+      <video id="vid4" src="assets/videos/work_stations.MP4" loop muted></video>
+      <video id="vid5" src="assets/videos/interactive_screen.mp4" loop muted></video>
 
       <a-mixin id="hotspot-text" geometry="primitive: plane; width: 0; height: 0"
         material="color: #faaf52; opacity: 0.85; side: double"
