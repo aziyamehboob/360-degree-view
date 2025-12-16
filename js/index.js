@@ -1,91 +1,108 @@
 // ----------------------------
 // GLOBAL VARIABLES
-// ---------------------------
-
+// ----------------------------
 const camera = document.querySelector("#cam");
-const menuBar = document.getElementById("menuLeft");
-const menuIcon = document.getElementById("menuIcon");
-const videoMenu = document.getElementById("videoMenu");
-const currentVideoName = document.getElementById("currentVideoName");
 const videosphere = document.querySelector("#videosphere");
+const pivot = document.querySelector("#pivotY");
+const cam = document.querySelector("#cam");
+const autoRotateBtn = document.getElementById("autoRotateBtn");
+const autoRotateIcon = document.getElementById("autoRotateIcon");
+
+let isAutorotating = true;
+const tabs = document.querySelectorAll("#topTabs .tab");
+const visitedVideos = new Set();
 
 // ----------------------------
-// MENU TOGGLE
+// TAB COLOR LOGIC
 // ----------------------------
-menuIcon.addEventListener("click", () => {
-  videoMenu.style.display = videoMenu.style.display === "block" ? "none" : "block";
-});
+function setActiveTab(videoId) {
+  tabs.forEach(tab => {
+    if (tab.dataset.video === videoId.replace('#','')) {
+      tab.classList.add("active");
+      tab.classList.remove("visited");
+    } else if (visitedVideos.has(tab.dataset.video)) {
+      tab.classList.add("visited");
+      tab.classList.remove("active");
+    } else {
+      tab.classList.remove("active","visited");
+    }
+  });
+}
 
 // ----------------------------
 // CHANGE VIDEO FUNCTION
 // ----------------------------
 window.changeVideo = function(videoId, groupId, videoName, rotation) {
-  // Change 360° video
   const vidEl = document.querySelector(videoId);
   videosphere.setAttribute("src", videoId);
   if (vidEl) vidEl.play();
 
-  if (rotation) camera.setAttribute("rotation", rotation);
+  if (rotation) {
+      const rot = rotation.split(" ").map(Number);
+      pivot.setAttribute("rotation", `${rot[0]} ${rot[1]} ${rot[2]}`);
+  }
 
-  // Enable autorotation
   isAutorotating = true;
   camera.setAttribute("look-controls", "enabled: false");
+  updateButton();
 
-  // Hide all hotspot groups
-  document.querySelectorAll("#spots > a-entity")
-    .forEach(g => g.setAttribute("scale", "0 0 0"));
+  document.querySelectorAll("#spots > a-entity").forEach(g => g.setAttribute("scale", "0 0 0"));
 
-  // Show the selected hotspot group
   const groupEl = document.getElementById(groupId);
   if (groupEl) groupEl.setAttribute("scale", "1 1 1");
 
-  // Update menu label
-  currentVideoName.textContent = videoName;
-
-  // Highlight active menu item
-  document.querySelectorAll(".menu-item").forEach(item => item.classList.remove("active"));
-  const menuItem = document.querySelector(`[data-video='${videoId.replace('#','')}']`);
-  if (menuItem) menuItem.classList.add("active");
+  visitedVideos.add(videoId.replace('#',''));
+  setActiveTab(videoId);
 }
 
 // ----------------------------
-// MENU ITEM CLICK HANDLER
+// TAB CLICK HANDLER
 // ----------------------------
-document.querySelectorAll("#videoMenu li").forEach(li => {
-  li.addEventListener("click", () => {
-    const vidId = `#${li.dataset.video}`;
-    const groupId = li.dataset.group;
-    const name = li.textContent;
-    const rotation = li.dataset.rotation;
-
+tabs.forEach(tab => {
+  tab.addEventListener("click", () => {
+    const vidId = `#${tab.dataset.video}`;
+    const groupId = `group-${tab.dataset.video}`;
+    const name = tab.textContent;
+    const rotation = "0 0 0";
     changeVideo(vidId, groupId, name, rotation);
-
-    videoMenu.style.display = "none";
   });
 });
 
 // ----------------------------
-// AUTO-ROTATE COMPONENT
+// START TOUR BUTTON
 // ----------------------------
-let isAutorotating = true;
-const autoRotateBtn = document.getElementById("autoRotateBtn");
-const autoRotateIcon = document.getElementById("autoRotateIcon");
-const cam = document.querySelector("#cam");
-const pivot = document.querySelector("#pivot");
+const startBtn = document.getElementById("startTourBtn");
+if (startBtn) {
+  startBtn.addEventListener("click", () => {
+    document.getElementById("startScreen").style.display = "none";
 
-// Update button icon and look-controls state
-function updateButton() {
-  autoRotateIcon.src = isAutorotating ? "assets/img/pause.png" : "assets/img/play.png";
-  cam.setAttribute("look-controls", "enabled", !isAutorotating); // enable drag only when paused
+    const vidId = "#vid1";
+    const entranceVideo = document.getElementById("vid1");
+    entranceVideo.play();
+    videosphere.setAttribute("src", vidId);
+
+    visitedVideos.add("vid1");
+    setActiveTab(vidId);
+
+    isAutorotating = true;
+    updateButton();
+  });
 }
 
-// Button click toggles autorotate
+
+// ----------------------------
+// AUTO-ROTATE LOGIC
+// ----------------------------
+function updateButton() {
+  autoRotateIcon.src = isAutorotating ? "assets/img/pause.png" : "assets/img/play.png";
+  cam.setAttribute("look-controls", "enabled", !isAutorotating);
+}
+
 autoRotateBtn.addEventListener("click", () => {
   isAutorotating = !isAutorotating;
   updateButton();
 });
 
-// Click anywhere on scene toggles autorotate (like Marzipano)
 document.querySelector("a-scene").addEventListener("mousedown", () => {
   isAutorotating = false;
   updateButton();
@@ -95,13 +112,16 @@ document.querySelector("a-scene").addEventListener("touchstart", () => {
   updateButton();
 });
 
-// Autorotate tick
 AFRAME.registerComponent("auto-rotate-pivot", {
   schema: { speed: { type: "number", default: 2 } },
-
   tick: function (time, timeDelta) {
     if (!isAutorotating) return;
     const radiansPerMs = THREE.MathUtils.degToRad(this.data.speed) / 1000;
     pivot.object3D.rotation.y += radiansPerMs * timeDelta;
   }
-});  
+});
+
+function stopAutoRotate() {
+    isAutorotating = false;
+    updateButton();
+}

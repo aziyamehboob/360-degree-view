@@ -1,36 +1,87 @@
 // ----------------------------
-// HOTSPOT COMPONENTS
+// CAMERA ROTATION HANDLER
 // ----------------------------
+AFRAME.registerComponent("set-view", {
+  schema: { rotation: { type: "string" } },
+  init: function () {
+    const pivotY = document.querySelector("#pivotY");
+    const pivotX = document.querySelector("#pivotX");
+
+    if (!this.data.rotation) return;
+
+    const [x, y, z] = this.data.rotation.split(" ").map(Number);
+
+    pivotX.setAttribute("rotation", { x: x, y: 0, z: 0 });
+    pivotY.setAttribute("rotation", { x: 0, y: y, z: 0 });
+  }
+});
 
 // ----------------------------
-// Spot click handler
+// HOTSPOT COMPONENT
 // ----------------------------
 AFRAME.registerComponent("spot", {
   schema: {
     linkto: { type: "string" },
     spotgroup: { type: "string" },
-    videoname: { type: "string", default: "" }
+    videoname: { type: "string", default: "" },
+    rotation: { type: "string", default: "" }
   },
-
   init: function() {
     const el = this.el;
     const videosphere = document.querySelector("#videosphere");
-    const currentVideoName = document.getElementById("currentVideoName");
+    const pivotY = document.querySelector("#pivotY");
+    const pivotX = document.querySelector("#pivotX");
 
     el.addEventListener("click", () => {
-      // Change 360° video
+      // Change video
       videosphere.setAttribute("src", this.data.linkto);
       const videoEl = document.querySelector(this.data.linkto);
       if (videoEl) videoEl.play();
-  // show controls
 
-
-      // Show relevant hotspot group
+      // Show hotspot group
       this.el.sceneEl.querySelector("#spots").emit("showgroup", { group: this.data.spotgroup });
 
-      // Update menu label
-      if (currentVideoName && this.data.videoname) {
-        currentVideoName.textContent = this.data.videoname;
+      // Apply starting rotation
+      if (this.data.rotation && pivotX && pivotY) {
+        const [x, y] = this.data.rotation.split(" ").map(Number);
+        pivotX.setAttribute("rotation", { x: x, y: 0, z: 0 });
+        pivotY.setAttribute("rotation", { x: 0, y: y, z: 0 });
+      }
+
+      // Resume autorotate
+      if (typeof isAutorotating !== "undefined") {
+        isAutorotating = true;
+        const cam = document.querySelector("#cam");
+        cam.setAttribute("look-controls", "enabled", false);
+      }
+
+      // ----------------------------
+      // Update Top Tabs
+      // ----------------------------
+      if (!window.visitedVideos) window.visitedVideos = new Set();
+
+      // Add current video to visited
+      window.visitedVideos.add(this.data.linkto);
+
+      // Update all tabs
+      document.querySelectorAll(".tab").forEach(tab => {
+        const vid = `#${tab.dataset.video}`;
+        tab.classList.remove("active");
+        tab.classList.remove("visited");
+        if (window.visitedVideos.has(vid)) {
+          tab.classList.add("visited"); // green for visited
+        }
+      });
+
+      const activeTab = document.querySelector(`.tab[data-video='${this.data.linkto.replace('#','')}']`);
+      if (activeTab) activeTab.classList.add("active"); // blue for current
+
+      // ----------------------------
+      // Update visited count UI (if exists)
+      // ----------------------------
+      const visitedCounter = document.getElementById("visitedCount");
+      if (visitedCounter) {
+        visitedCounter.textContent = window.visitedVideos.size;
       }
     });
   }
@@ -47,40 +98,5 @@ AFRAME.registerComponent("hotspots", {
       const groupEl = document.getElementById(groupId);
       if (groupEl) groupEl.setAttribute("scale", "1 1 1");
     });
-  }
-});
-
-// ----------------------------
-// Hotspot hover label
-// ----------------------------
-AFRAME.registerComponent('hotspot-hover-label', {
-  schema: { offset: {type:'vec3', default:{x:0,y:2,z:0}}, scale:{type:'number', default:1} },
-  init: function() {
-    const el = this.el;
-    const sceneEl = el.sceneEl;
-    const text = document.createElement('a-entity');
-    text.setAttribute('text', { value: el.dataset.name || 'NO-NAME', align:'center', color:'#fff', width:2 });
-    text.setAttribute('scale', `${this.data.scale} ${this.data.scale} ${this.data.scale}`);
-    text.setAttribute('visible', false);
-    sceneEl.appendChild(text);
-    el.hoverText = text;
-
-    el.addEventListener('mouseenter', () => text.setAttribute('visible', true));
-    el.addEventListener('mouseleave', () => text.setAttribute('visible', false));
-  },
-  tick: function() {
-    if (!this.el.hoverText) return;
-    // Update position every frame
-    const worldPos = new THREE.Vector3();
-    this.el.object3D.localToWorld(worldPos);
-    this.el.hoverText.object3D.position.copy(worldPos);
-    this.el.hoverText.object3D.position.add(new THREE.Vector3(
-      this.data.offset.x,
-      this.data.offset.y,
-      this.data.offset.z
-    ));
-    // Make text face camera
-    const cam = document.querySelector('#cam');
-    if (cam) this.el.hoverText.object3D.lookAt(cam.object3D.position);
   }
 });

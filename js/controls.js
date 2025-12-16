@@ -1,47 +1,80 @@
+// Wait until the scene is fully loaded
+document.querySelector('a-scene').addEventListener('loaded', () => {
 
-// Initialize view control buttons
-function initViewControlButtons() {
-  const cameraEl = document.querySelector("#cam");
-  const pivotEl = document.querySelector("#pivot");
-  const speed = 0.02;
-  const zoomStep = 0.5;
+  // Get camera and pivots
+  const camEl = document.getElementById("cam");
+  const pivotX = document.getElementById("pivotX");
+  const pivotY = document.getElementById("pivotY");
 
-  if (!cameraEl || !pivotEl) return;
-
-  // Rotation buttons
-  document.getElementById("viewLeft").onclick = () => pivotEl.object3D.rotation.y += speed;
-  document.getElementById("viewRight").onclick = () => pivotEl.object3D.rotation.y -= speed;
-  document.getElementById("viewUp").onclick = () => 
-    cameraEl.object3D.rotation.x = Math.max(cameraEl.object3D.rotation.x - speed, -Math.PI / 2);
-  document.getElementById("viewDown").onclick = () => 
-    cameraEl.object3D.rotation.x = Math.min(cameraEl.object3D.rotation.x + speed, Math.PI / 2);
-
-  // Zoom buttons
-  document.getElementById("viewIn").onclick = () => 
-    cameraEl.object3D.position.z = Math.max(cameraEl.object3D.position.z - zoomStep, 1);
-  document.getElementById("viewOut").onclick = () => 
-    cameraEl.object3D.position.z += zoomStep;
-}
-
-// Make buttons visible and initialize them
-function enableControls() {
-  document.body.classList.add("view-control-buttons");
-  document.querySelectorAll('.viewControlButton').forEach(btn => btn.style.display = 'block');
-  initViewControlButtons();
-}
-
-// Ensure buttons load after scene is ready
-AFRAME.registerSystem('controls-loader', {
-  init: function() {
-    const scene = document.querySelector('a-scene');
-    if (!scene) return;
-
-    scene.addEventListener('loaded', () => {
-      // Slight delay to make sure everything is rendered
-      setTimeout(() => enableControls(), 100);
-    });
+  if (!camEl || !pivotX || !pivotY) {
+    console.error("Camera or pivotX/pivotY missing!");
+    return;
   }
-});
 
-// Expose globally so index.js can call after video switch
-window.enableControls = enableControls;
+  // Settings
+  const ROTATE_STEP = 0.08; // radians per click
+  const TILT_STEP = 0.08;   // radians per click
+  const ZOOM_STEP = 2;       // FOV change per click
+
+  // Helper to stop autorotate (from index.js)
+  function stopAutoRotateFromControls() {
+    if (typeof stopAutoRotate === "function") stopAutoRotate();
+  }
+
+  // ----------------------------
+  // LEFT / RIGHT (Yaw)
+  // ----------------------------
+  document.getElementById("viewLeft").onclick = () => {
+    pivotY.object3D.rotation.y += ROTATE_STEP;
+    stopAutoRotateFromControls();
+  };
+  document.getElementById("viewRight").onclick = () => {
+    pivotY.object3D.rotation.y -= ROTATE_STEP;
+    stopAutoRotateFromControls();
+  };
+
+  // ----------------------------
+  // UP / DOWN (Pitch)
+  // ----------------------------
+  document.getElementById("viewUp").onclick = () => {
+    pivotX.object3D.rotation.x = THREE.MathUtils.clamp(
+      pivotX.object3D.rotation.x - TILT_STEP,
+      -Math.PI / 2,
+      Math.PI / 2
+    );
+    stopAutoRotateFromControls();
+  };
+  document.getElementById("viewDown").onclick = () => {
+    pivotX.object3D.rotation.x = THREE.MathUtils.clamp(
+      pivotX.object3D.rotation.x + TILT_STEP,
+      -Math.PI / 2,
+      Math.PI / 2
+    );
+    stopAutoRotateFromControls();
+  };
+
+  // ----------------------------
+  // ZOOM IN / OUT (FOV)
+  // ----------------------------
+  document.getElementById("viewIn").onclick = () => {
+    const camData = camEl.getAttribute("camera");
+    camEl.setAttribute("camera", {
+      fov: Math.max(20, camData.fov - ZOOM_STEP)
+    });
+    stopAutoRotateFromControls();
+  };
+
+  document.getElementById("viewOut").onclick = () => {
+    const camData = camEl.getAttribute("camera");
+    camEl.setAttribute("camera", {
+      fov: Math.min(100, camData.fov + ZOOM_STEP)
+    });
+    stopAutoRotateFromControls();
+  };
+
+  // ----------------------------
+  // Optional: Show controls if hidden
+  // ----------------------------
+  const container = document.querySelector('.view-control-buttons');
+  if (container) container.style.display = 'flex';
+});
