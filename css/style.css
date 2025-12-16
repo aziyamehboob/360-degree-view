@@ -1,3 +1,6 @@
+/* =========================================================
+   GLOBAL RESET & BASE
+========================================================= */
 body {
   margin: 0;
   padding: 0;
@@ -10,9 +13,9 @@ a-scene {
   height: 100vh;
 }
 
-/* -------------------------------
-   TOP GREY BAR (MENU + PLAY/PAUSE + TABS)
----------------------------------*/
+/* =========================================================
+   TOP BAR (TABS + CONTROLS)
+========================================================= */
 #topBar {
   position: fixed;
   top: 0;
@@ -27,7 +30,6 @@ a-scene {
   z-index: 9999;
 }
 
-/* Tabs container */
 #topTabs {
   display: flex;
   gap: 8px;
@@ -37,7 +39,6 @@ a-scene {
   padding: 8px 14px;
   border-radius: 6px;
   background: #ccc;
-  /* default gray */
   color: black;
   font-weight: bold;
   cursor: pointer;
@@ -54,7 +55,6 @@ a-scene {
   color: white;
 }
 
-/* Right side controls */
 #menuRight {
   display: flex;
   align-items: center;
@@ -79,29 +79,37 @@ a-scene {
 
 #endTourBtn {
   padding: 8px 12px;
-  cursor: pointer;
   background: #e74c3c;
   color: white;
   border: none;
   border-radius: 6px;
   font-weight: bold;
-  transition: 0.2s;
+  cursor: pointer;
 }
 
 #endTourBtn:hover {
   background: #c0392b;
 }
 
-/* Visited count text */
-#visitedCount {
+/* =========================================================
+   VISITED COUNTER
+========================================================= */
+#visitedCounter {
+  position: fixed;
+  top: 60px;
+  right: 20px;
+  z-index: 9999;
   color: white;
   font-weight: bold;
-  margin-left: 10px;
 }
 
-/* -------------------------------
-   VIEW CONTROL BUTTONS (BOTTOM CENTER)
----------------------------------*/
+#visitedCount {
+  margin-left: 6px;
+}
+
+/* =========================================================
+   VIEW CONTROL BUTTONS
+========================================================= */
 .view-control-buttons {
   position: fixed;
   bottom: 20px;
@@ -134,206 +142,32 @@ a-scene {
   transition: 0.2s;
 }
 
-/* -------------------------------
-   START SCREEN
----------------------------------*/
-/* -------------------------------
-   START SCREEN (Aalto Style)
----------------------------------*/
+/* =========================================================
+   START SCREEN CONTAINER
+========================================================= */
 #startScreen {
   position: fixed;
   inset: 0;
   z-index: 10000;
   display: flex;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  pointer-events: none;
-  /* Let clicks pass through to scene */
   overflow: hidden;
-  background: transparent;
-  /* Transparent to see 360 skybox */
-}
-
-/* Map Background (Removed) */
-/*
-.start-screen-bg {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: #000;
-  pointer-events: auto;
-}
-
-.map-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.8; 
-}
-
-.map-dot {
-  position: absolute;
-  width: 40px;
-  height: 40px;
-  transform: translate(-50%, -50%);
-  cursor: pointer;
-  z-index: 10;
-}
-*/
-.map-dot {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.dot-inner {
-  width: 16px;
-  height: 16px;
-  background-color: #ffd400;
-  border-radius: 50%;
-  border: 2px solid white;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-  position: relative;
-  z-index: 2;
-}
-
-.dot-pulse {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(255, 212, 0, 0.6);
-  border-radius: 50%;
-  animation: pulse 2s infinite;
-  z-index: 1;
-}
-
-@keyframes pulse {
-  0% {
-    transform: scale(0.5);
-    opacity: 1;
-  }
-
-  100% {
-    transform: scale(2.5);
-    opacity: 0;
-  }
-}
-
-/* Tooltip */
-.dot-tooltip {
-  position: absolute;
-  bottom: 50px;
-  left: 50%;
-  transform: translateX(-50%) translateY(10px);
-  background: white;
-  padding: 15px;
-  border-radius: 8px;
-  width: 200px;
-  text-align: center;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.3s ease;
   pointer-events: none;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+body.tour-not-started #topBar,
+body.tour-not-started .view-control-buttons,
+body.tour-not-started #visitedCounter,
+body.tour-not-started #summaryModal {
+  display: none !important;
 }
 
-.dot-tooltip::after {
-  content: '';
-  position: absolute;
-  bottom: -6px;
-  left: 50%;
-  transform: translateX(-50%) rotate(45deg);
-  width: 12px;
-  height: 12px;
-  background: white;
-}
-
-.map-dot:hover .dot-tooltip {
-  opacity: 1;
-  visibility: visible;
-  transform: translateX(-50%) translateY(0);
-}
-
-.dot-tooltip h3 {
-  margin: 0 0 5px 0;
-  font-size: 16px;
-  color: #333;
-}
-
-.dot-tooltip p {
-  margin: 0;
-  font-size: 12px;
-  color: #666;
-}
-
-/* Side Drawer */
-.side-drawer {
-  position: absolute;
-  top: 0;
-  left: -300px;
-  /* Hidden by default */
-  width: 300px;
-  height: 100%;
-  background: white;
-  z-index: 10002;
-  box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
-  transition: left 0.3s ease-in-out;
-  pointer-events: auto;
-  display: flex;
-  flex-direction: column;
-}
-
-.side-drawer.open {
-  left: 60px;
-  /* Slide out next to sidebar */
-}
-
-.drawer-header {
-  padding: 20px;
-  border-bottom: 1px solid #eee;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.drawer-header h2 {
-  margin: 0;
-  font-size: 20px;
-  color: #333;
-}
-
-.close-drawer {
-  background: none;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-  color: #999;
-}
-
-.drawer-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.drawer-link {
-  display: block;
-  padding: 15px 20px;
-  text-decoration: none;
-  color: #333;
-  border-bottom: 1px solid #f5f5f5;
-  transition: background 0.2s;
-}
-
-.drawer-link:hover {
-  background: #f9f9f9;
-  padding-left: 25px;
-}
-
-/* Sidebar Menu (Left) */
+/* =========================================================
+   SIDEBAR MENU (LEFT)
+========================================================= */
 .sidebar-menu {
   width: 60px;
-  background-color: #2d2d2d;
   height: 100%;
+  background-color: #2d2d2d;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -363,7 +197,65 @@ a-scene {
   margin-top: 4px;
 }
 
-/* Top Menu (Right) */
+/* =========================================================
+   SIDE DRAWER
+========================================================= */
+.side-drawer {
+  position: absolute;
+  top: 0;
+  left: -300px;
+  width: 300px;
+  height: 100%;
+  background: white;
+  z-index: 10002;
+  box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+  transition: left 0.3s ease-in-out;
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.side-drawer.open {
+  left: 60px;
+}
+
+.drawer-header {
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close-drawer {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.drawer-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.drawer-link {
+  display: block;
+  padding: 15px 20px;
+  text-decoration: none;
+  color: #333;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.drawer-link:hover {
+  background: #f9f9f9;
+  padding-left: 25px;
+}
+
+/* =========================================================
+   TOP MENU (RIGHT)
+========================================================= */
 .top-menu {
   position: absolute;
   top: 20px;
@@ -386,29 +278,44 @@ a-scene {
   text-decoration: underline;
 }
 
-/* Welcome Card (Right Overlay) */
+/* =========================================================
+   WELCOME CARD
+========================================================= */
 .welcome-card {
   position: absolute;
   right: 40px;
   top: 100px;
   width: 400px;
-  background-color: #ffd400;
-  /* Aalto Yellow approx */
+  max-height: 70vh; /* limits height to 70% of viewport */
+  background-color: rgba(0, 0, 0, 0.75);
   padding: 30px;
-  border-radius: 0 0 20px 20px;
-  /* Rounded bottom corners */
+  border-radius: 0;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
   pointer-events: auto;
-  color: #000;
+  color: #fff;
   animation: slideInRight 0.5s ease-out;
+  overflow-y: auto; 
+  scrollbar-width: thin; /* Firefox */
 }
 
+
+.welcome-card::-webkit-scrollbar {
+  width: 6px;
+}
+
+.welcome-card::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 3px;
+}
+
+.welcome-card::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+}
 @keyframes slideInRight {
   from {
     transform: translateX(100%);
     opacity: 0;
   }
-
   to {
     transform: translateX(0);
     opacity: 1;
@@ -417,36 +324,19 @@ a-scene {
 
 .card-header {
   display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
   align-items: center;
-}
-
-.tag {
-  background: #333;
-  color: white;
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.tag.icon-tag {
-  background: #333;
+  margin-bottom: 20px;
 }
 
 .close-icon {
   margin-left: auto;
   font-size: 20px;
   cursor: pointer;
-  font-weight: bold;
 }
 
 .welcome-card h1 {
   font-size: 28px;
-  margin: 0 0 20px 0;
-  line-height: 1.2;
+  margin-bottom: 20px;
 }
 
 .welcome-card p {
@@ -457,70 +347,59 @@ a-scene {
 
 .card-actions {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 30px;
+  justify-content: center;
+  margin-top: 30px; 
 }
-
 .action-btn {
-  padding: 12px 20px;
+  padding: 16px 20px;
   border-radius: 30px;
   font-size: 14px;
   font-weight: bold;
+  justify-content: center;
   cursor: pointer;
-  text-align: center;
-  transition: all 0.2s;
   border: 2px solid #000;
-  background: transparent;
-  color: #000;
+  color: #000000;
 }
 
 .action-btn:hover {
   background: #000;
-  color: #ffd400;
+  color: #f3f3f0;
 }
+/* =========================================================
+contact us 
+========================================================= */
 
-
-
-/* Guide Avatar */
-.guide-avatar {
+.contact-card {
   position: absolute;
-  bottom: 40px;
-  right: 40px;
+  right: -450px; /* start off-screen */
+  top: 100px;
+  width: 400px;
+  background-color: rgba(0, 0, 0, 0.85);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
   pointer-events: auto;
+  color: #fff;
+  display: block; /* keep visible for animation */
+  max-height: 70vh;
+  overflow-y: auto;
+  transition: right 0.5s ease-out; 
 }
 
-.avatar-circle {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 4px solid #ffd400;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+/* Slide-in active state */
+.contact-card.active {
+  right: 40px; /* final position */
 }
 
-.avatar-circle img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* Hide top bar, video menu, and controls before tour starts */
-body.tour-not-started #topBar,
-body.tour-not-started #videoMenu,
-body.tour-not-started .view-control-buttons {
-  display: none;
-}
-
-/* -------------------------------
+/* =========================================================
    SUMMARY MODAL
----------------------------------*/
+========================================================= */
 #summaryModal {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #fff;
+  background: #fff;
   padding: 25px 20px;
   border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
@@ -528,38 +407,17 @@ body.tour-not-started .view-control-buttons {
   display: none;
   width: 350px;
   text-align: center;
-  font-family: Arial, sans-serif;
-}
-
-#summaryModal h2 {
-  margin-top: 0;
-  color: #1f4e79;
-}
-
-#summaryModal p {
-  font-size: 16px;
-  margin: 12px 0;
-  color: #333;
-}
-
-#summaryModal ul {
-  text-align: left;
-  padding-left: 20px;
-  max-height: 120px;
-  overflow-y: auto;
-  margin-bottom: 12px;
 }
 
 #summaryModal button {
   margin-top: 12px;
   padding: 10px 16px;
-  cursor: pointer;
   background: #1f6feb;
   color: white;
   border: none;
   border-radius: 6px;
   font-weight: bold;
-  transition: 0.2s;
+  cursor: pointer;
 }
 
 #summaryModal button:hover {

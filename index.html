@@ -19,9 +19,6 @@
 <body>
   <!-- START SCREEN -->
   <div id="startScreen">
-
-
-
     <!-- Sidebar Menu (Left) -->
     <div class="sidebar-menu">
       <div class="menu-burger" id="menuBurger">
@@ -53,21 +50,31 @@
     <div class="top-menu">
       <a href="#" class="menu-link">Home</a>
       <a href="#" class="menu-link">VR</a>
-      <a href="#" class="menu-link">Social</a>
-      <a href="#" class="menu-link">Aalto.fi</a>
       <a href="#" class="menu-link contact-btn">Contact us</a>
     </div>
 
+    
+    <!-- contact us -->
+<div class="contact-card" id="contactPanel">
+  <div class="card-header">
+    <h1>Contact Us</h1>
+    <span class="close-icon" id="closeContactPanel">&times;</span>
+  </div>
+  <div class="card-body">
+    <input type="email" id="contactEmail" placeholder="Your email">
+    <textarea id="contactMessage" placeholder="Your message"></textarea>
+  </div>
+  <div class="card-actions">
+    <button id="sendContact" class="action-btn primary">Send</button>
+  </div>
+</div>
     <!-- Welcome Card (Right Overlay) -->
     <div class="welcome-card">
       <div class="card-header">
-        <span class="tag">Thematic tours</span>
-        <span class="tag">Auto tour</span>
-        <span class="tag icon-tag">🔊 OFF</span>
         <span class="close-icon">✕</span>
       </div>
 
-      <h1>Hello and welcome to HOLA!</h1>
+      <h1>HOLA: Hands-On LAboratory – Computing Education Research</h1>
 
       <p>
         The Hands-On Laboratory (HOLA) is a research-oriented environment for Computing Education Research (CER),
@@ -83,16 +90,7 @@
       </p>
 
       <div class="card-actions">
-        <button id="startTourBtn" class="action-btn primary">Start from the map</button>
-        <button class="action-btn secondary">Start from one of the schools</button>
-        <button class="action-btn secondary">Take the thematic tour</button>
-      </div>
-    </div>
-
-    <!-- Guide Avatar (Bottom Right) -->
-    <div class="guide-avatar">
-      <div class="avatar-circle">
-        <img src="https://ui-avatars.com/api/?name=HOLA&background=ff0000&color=fff" alt="Guide">
+        <button id="action-btn" class="action-btn primary">Visit our website</button>
       </div>
     </div>
 
@@ -170,7 +168,7 @@
     <!-- INTRO SKYBOX (360 Start Screen) -->
     <a-sky id="introSky" src="assets/images/background_entry_point.JPG" rotation="0 -90 0">
       <!-- 3D Hotspot for LAB Entry -->
-      <a-entity id="entryHotspot" position="10 2 -1" rotation="0 -90 0" class="clickable"
+      <a-entity id="entryHotspot" position="10 1.5 -0.7" rotation="0 -90 0" class="clickable"
         geometry="primitive: circle; radius: 0.3" material="color: #ffd400; opacity: 0.8; shader: flat; side: double"
         animation="property: scale; from: 1 1 1; to: 1.2 1.2 1.2; dir: alternate; loop: true; dur: 1000">
 
