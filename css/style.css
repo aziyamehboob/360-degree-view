@@ -135,7 +135,7 @@ a-scene {
 }
 
 /* -------------------------------
-   START SCREEN 
+   START SCREEN
 ---------------------------------*/
 /* -------------------------------
    START SCREEN (Aalto Style)
@@ -147,29 +147,29 @@ a-scene {
   display: flex;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   pointer-events: none;
-  /* Let clicks pass through to scene if needed, but card needs pointer-events: auto */
+  /* Let clicks pass through to scene */
   overflow: hidden;
+  background: transparent;
+  /* Transparent to see 360 skybox */
 }
 
-/* Map Background */
+/* Map Background (Removed) */
+/*
 .start-screen-bg {
   position: absolute;
   inset: 0;
   z-index: -1;
   background: #000;
   pointer-events: auto;
-  /* Catch clicks on the map */
 }
 
 .map-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.8;
-  /* Slight dim for better UI visibility */
+  opacity: 0.8; 
 }
 
-/* Interactive Dots */
 .map-dot {
   position: absolute;
   width: 40px;
@@ -177,6 +177,9 @@ a-scene {
   transform: translate(-50%, -50%);
   cursor: pointer;
   z-index: 10;
+}
+*/
+.map-dot {
   display: flex;
   justify-content: center;
   align-items: center;

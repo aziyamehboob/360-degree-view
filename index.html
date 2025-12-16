@@ -20,63 +20,7 @@
   <!-- START SCREEN -->
   <div id="startScreen">
 
-    <!-- Map Background & Dots -->
-    <div class="start-screen-bg">
-      <!-- 3D Isometric Map Image -->
-      <img src="assets/images/3d_map.png" alt="Campus Map" class="map-image">
 
-      <!-- Interactive Dots (Positioned for Isometric Layout) -->
-
-      <!-- 1. Entrance (Glass area, usually bottom left or corner) -->
-      <div class="map-dot" style="top: 75%; left: 25%;" data-video="vid1" data-title="Entrance">
-        <div class="dot-inner"></div>
-        <div class="dot-pulse"></div>
-        <div class="dot-tooltip">
-          <h3>Entrance</h3>
-          <p>Start your journey here.</p>
-        </div>
-      </div>
-
-      <!-- 2. Collaboration Tables (Round tables, usually middle/left) -->
-      <div class="map-dot" style="top: 55%; left: 35%;" data-video="vid2" data-title="Collaboration Tables">
-        <div class="dot-inner"></div>
-        <div class="dot-pulse"></div>
-        <div class="dot-tooltip">
-          <h3>Collaboration Tables</h3>
-          <p>Space for group work and discussion.</p>
-        </div>
-      </div>
-
-      <!-- 3. Lego Table (Robotics area, usually middle/back) -->
-      <div class="map-dot" style="top: 40%; left: 50%;" data-video="vid3" data-title="Lego Table">
-        <div class="dot-inner"></div>
-        <div class="dot-pulse"></div>
-        <div class="dot-tooltip">
-          <h3>Lego Table</h3>
-          <p>Hands-on robotics and engineering.</p>
-        </div>
-      </div>
-
-      <!-- 4. Workstations (Row of computers, usually right side) -->
-      <div class="map-dot" style="top: 60%; left: 70%;" data-video="vid4" data-title="Workstations">
-        <div class="dot-inner"></div>
-        <div class="dot-pulse"></div>
-        <div class="dot-tooltip">
-          <h3>Workstations</h3>
-          <p>Individual research and coding areas.</p>
-        </div>
-      </div>
-
-      <!-- 5. Interactive Screen (Large screen, usually back wall) -->
-      <div class="map-dot" style="top: 25%; left: 65%;" data-video="vid5" data-title="Interactive Screen">
-        <div class="dot-inner"></div>
-        <div class="dot-pulse"></div>
-        <div class="dot-tooltip">
-          <h3>Interactive Screen</h3>
-          <p>Large display for presentations.</p>
-        </div>
-      </div>
-    </div>
 
     <!-- Sidebar Menu (Left) -->
     <div class="sidebar-menu">
@@ -223,8 +167,30 @@
       </a-mixin>
     </a-assets>
 
+    <!-- INTRO SKYBOX (360 Start Screen) -->
+    <a-sky id="introSky" src="assets/images/background_entry_point.JPG" rotation="0 -90 0">
+      <!-- 3D Hotspot for LAB Entry -->
+      <a-entity id="entryHotspot" position="10 2 -1" rotation="0 -90 0" class="clickable"
+        geometry="primitive: circle; radius: 0.3" material="color: #ffd400; opacity: 0.8; shader: flat; side: double"
+        animation="property: scale; from: 1 1 1; to: 1.2 1.2 1.2; dir: alternate; loop: true; dur: 1000">
+
+        <!-- Tooltip Text (Hidden by default, shown on hover via JS) -->
+        <a-entity id="entryTooltip" position="0 1.2 0.1" visible="false"
+          geometry="primitive: plane; width: 3.5; height: 1.8"
+          material="color: #8c7700; opacity: 1; shader: flat; side: double">
+          <a-text value="LAB\nWelcome to the Hands-On Lab\nExplore our research facilities\nClick to enter"
+            align="center" position="0 0 0.1" rotation="0 180 0" color="#ffffff" width="3.8" wrap-count="30"
+            shader="msdf" side="double"
+            font="https://raw.githubusercontent.com/etiennepinchon/aframe-fonts/master/fonts/roboto/Roboto-Bold.json">
+          </a-text>
+        </a-entity>
+
+
+      </a-entity>
+    </a-sky>
+
     <!-- HOTSPOTS CONTAINER -->
-    <a-entity id="spots" hotspots>
+    <a-entity id="spots" hotspots visible="false">
 
       <!-- GROUP vid1 -->
       <a-entity id="group-vid1" scale="1 1 1">
@@ -372,7 +338,7 @@
     </a-entity>
 
     <!-- 360 VIDEO SPHERE -->
-    <a-videosphere id="videosphere" src="#vid1"></a-videosphere>
+    <a-videosphere id="videosphere" src="#vid1" visible="false"></a-videosphere>
 
   </a-scene>
 
