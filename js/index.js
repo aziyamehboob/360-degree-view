@@ -4,23 +4,24 @@
 const camera = document.querySelector("#cam");
 const videosphere = document.querySelector("#videosphere");
 const pivot = document.querySelector("#pivotY");
-const cam = document.querySelector("#cam");
 const autoRotateBtn = document.getElementById("autoRotateBtn");
 const autoRotateIcon = document.getElementById("autoRotateIcon");
 
+window.visitedSpots = window.visitedSpots || new Set();
 let isAutorotating = true;
+
 const tabs = document.querySelectorAll("#topTabs .tab");
-const visitedVideos = new Set();
 
 // ----------------------------
-// TAB COLOR LOGIC
+// HELPER: Set active tab and visited tabs
 // ----------------------------
-function setActiveTab(videoId) {
+function setActiveTabByVideoId(videoId) {
   tabs.forEach(tab => {
-    if (tab.dataset.video === videoId.replace('#', '')) {
+    const tabName = tab.textContent.trim();
+    if (`#${tab.dataset.video}` === videoId) {
       tab.classList.add("active");
       tab.classList.remove("visited");
-    } else if (visitedVideos.has(tab.dataset.video)) {
+    } else if (window.visitedSpots.has(tabName)) {
       tab.classList.add("visited");
       tab.classList.remove("active");
     } else {
@@ -30,88 +31,71 @@ function setActiveTab(videoId) {
 }
 
 // ----------------------------
-// CHANGE VIDEO FUNCTION
-// ----------------------------
-window.changeVideo = function (videoId, groupId, videoName, rotation) {
-  const vidEl = document.querySelector(videoId);
-  videosphere.setAttribute("src", videoId);
-  if (vidEl) vidEl.play();
-
-  if (rotation) {
-    const rot = rotation.split(" ").map(Number);
-    pivot.setAttribute("rotation", `${rot[0]} ${rot[1]} ${rot[2]}`);
-  }
-
-  isAutorotating = true;
-  camera.setAttribute("look-controls", "enabled: false");
-  updateButton();
-
-  document.querySelectorAll("#spots > a-entity").forEach(g => g.setAttribute("scale", "0 0 0"));
-
-  const groupEl = document.getElementById(groupId);
-  if (groupEl) groupEl.setAttribute("scale", "1 1 1");
-
-  visitedVideos.add(videoId.replace('#', ''));
-  setActiveTab(videoId);
-}
-
-// ----------------------------
 // TAB CLICK HANDLER
 // ----------------------------
 tabs.forEach(tab => {
   tab.addEventListener("click", () => {
-    const vidId = `#${tab.dataset.video}`;
+    const videoId = `#${tab.dataset.video}`;
     const groupId = `group-${tab.dataset.video}`;
-    const name = tab.textContent;
-    const rotation = "0 0 0";
-    changeVideo(vidId, groupId, name, rotation);
+    const friendlyName = tab.textContent.trim();
+
+    // Change video
+    const vidEl = document.querySelector(videoId);
+    videosphere.setAttribute("src", videoId);
+    if (vidEl) vidEl.play();
+
+    // Show hotspot group
+    document.querySelectorAll("#spots > a-entity").forEach(g => g.setAttribute("scale", "0 0 0"));
+    const groupEl = document.getElementById(groupId);
+    if (groupEl) groupEl.setAttribute("scale", "1 1 1");
+
+    // Autorotate
+    isAutorotating = true;
+    camera.setAttribute("look-controls", "enabled: false");
+    updateAutoRotateButton();
+
+    // Add to visited spots
+    window.visitedSpots.add(friendlyName);
+
+    // Update visited counter (show names as comma-separated)
+const visitedCounter = document.getElementById("visitedCount");
+if (visitedCounter) visitedCounter.textContent = window.visitedSpots.size;
+
+    // Set tab classes
+    setActiveTabByVideoId(videoId);
   });
 });
-
-// ----------------------------
-// START TOUR BUTTON
-// ----------------------------
-const startBtn = document.getElementById("startTourBtn");
-if (startBtn) {
-  startBtn.addEventListener("click", () => {
-    document.getElementById("startScreen").style.display = "none";
-
-    const vidId = "#vid1";
-    const entranceVideo = document.getElementById("vid1");
-    entranceVideo.play();
-    videosphere.setAttribute("src", vidId);
-
-    visitedVideos.add("vid1");
-    setActiveTab(vidId);
-
-    isAutorotating = true;
-    updateButton();
-  });
-}
-
 
 // ----------------------------
 // AUTO-ROTATE LOGIC
 // ----------------------------
-function updateButton() {
+function updateAutoRotateButton() {
   autoRotateIcon.src = isAutorotating ? "assets/images/pause.png" : "assets/images/play.png";
-  cam.setAttribute("look-controls", "enabled", !isAutorotating);
+  camera.setAttribute("look-controls", "enabled", !isAutorotating);
 }
 
 autoRotateBtn.addEventListener("click", () => {
   isAutorotating = !isAutorotating;
-  updateButton();
+  updateAutoRotateButton();
 });
 
-document.querySelector("a-scene").addEventListener("mousedown", () => {
+const sceneEl = document.querySelector("a-scene");
+
+sceneEl.addEventListener("mousedown", (e) => {
+  if (e.target.classList?.contains("clickable")) return;
   isAutorotating = false;
-  updateButton();
-});
-document.querySelector("a-scene").addEventListener("touchstart", () => {
-  isAutorotating = false;
-  updateButton();
+  updateAutoRotateButton();
 });
 
+sceneEl.addEventListener("touchstart", (e) => {
+  if (e.target.classList?.contains("clickable")) return;
+  isAutorotating = false;
+  updateAutoRotateButton();
+});
+
+// ----------------------------
+// AUTO ROTATE COMPONENT
+// ----------------------------
 AFRAME.registerComponent("auto-rotate-pivot", {
   schema: { speed: { type: "number", default: 2 } },
   tick: function (time, timeDelta) {
@@ -120,8 +104,3 @@ AFRAME.registerComponent("auto-rotate-pivot", {
     pivot.object3D.rotation.y += radiansPerMs * timeDelta;
   }
 });
-
-function stopAutoRotate() {
-  isAutorotating = false;
-  updateButton();
-}

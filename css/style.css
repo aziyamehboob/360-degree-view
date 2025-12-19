@@ -16,20 +16,24 @@ a-scene {
 /* =========================================================
    TOP BAR (TABS + CONTROLS)
 ========================================================= */
+/* ===================== TOP BAR ===================== */
 #topBar {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  height: 50px;
-  background-color: rgba(30, 30, 30, 0.8);
+  height: 52px;
+  background-color: rgba(255, 255, 255, 0.88); /* match welcome card */
+  backdrop-filter: blur(6px);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 15px;
+  padding: 0 24px;
   z-index: 9999;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
 }
 
+/* Tabs on the top bar */
 #topTabs {
   display: flex;
   gap: 8px;
@@ -37,60 +41,79 @@ a-scene {
 
 .tab {
   padding: 8px 14px;
-  border-radius: 6px;
-  background: #ccc;
-  color: black;
-  font-weight: bold;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.06); 
+  color: #111827;
+  font-weight: 600;
   cursor: pointer;
-  transition: 0.2s;
+  transition: all 0.2s ease;
 }
 
+.tab:hover {
+  background: rgba(0, 0, 0, 0.12);
+}
+
+/* Active / Visited states */
 .tab.active {
-  background: #007bff;
+  background: #2563EB; /* blue accent */
   color: white;
 }
 
 .tab.visited {
-  background: #28a745;
+  background: #16A34A; /* green for visited */
   color: white;
 }
 
+/* Container for right menu */
 #menuRight {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  align-items: center;  
+  gap: 12px;            
+  margin-left: auto;     
 }
 
+/* Icon button (play/pause) */
 #autoRotateBtn {
-  width: 40px;
-  height: 40px;
-  background: transparent;
-  border: none;
+  height: 36px;               
+  width: 36px;               
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: center;       
+  justify-content: center;    
+  border-radius: 8px;        
+  background: rgba(0, 0, 0, 0.08); 
+  border: none;
   cursor: pointer;
+  padding: 0;                
+  transition: background 0.2s;
 }
 
 #autoRotateBtn img {
-  width: 100%;
-  height: 100%;
+  width: 70%;          /* scale to 70% of button width */
+  height: 70%;         /* scale to 70% of button height */
+  object-fit: contain;  /* keep image proportion */
+  pointer-events: none; /* clicks go to the button itself */
+}
+#autoRotateBtn:hover {
+  background: rgba(0, 0, 0, 0.14); 
 }
 
+/* End Tour button (text button) */
 #endTourBtn {
-  padding: 8px 12px;
-  background: #e74c3c;
+  height: 36px;            
+  padding: 0 14px;          
+  font-weight: bold;
+  font-size: 14px;
+  border-radius: 8px;
+  background: #EF4444;      
   color: white;
   border: none;
-  border-radius: 6px;
-  font-weight: bold;
   cursor: pointer;
+  transition: background 0.2s;
 }
 
 #endTourBtn:hover {
-  background: #c0392b;
+  background: #DC2626;        /* darker red on hover */
 }
-
 /* =========================================================
    VISITED COUNTER
 ========================================================= */
@@ -167,7 +190,8 @@ body.tour-not-started #summaryModal {
 .sidebar-menu {
   width: 60px;
   height: 100%;
-  background-color: #2d2d2d;
+    background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(6px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -182,7 +206,7 @@ body.tour-not-started #summaryModal {
   flex-direction: column;
   align-items: center;
   gap: 5px;
-  color: #999;
+    color: #111;
   font-size: 10px;
   text-transform: uppercase;
 }
@@ -190,7 +214,7 @@ body.tour-not-started #summaryModal {
 .menu-burger .bar {
   width: 24px;
   height: 2px;
-  background-color: #999;
+  background-color: #111;
 }
 
 .menu-burger span {
@@ -268,13 +292,14 @@ body.tour-not-started #summaryModal {
 
 .menu-link {
   text-decoration: none;
-  color: white;
+  color: rgba(17, 24, 39, 0.9); /* near-black */
   font-weight: bold;
   font-size: 14px;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
 }
 
 .menu-link:hover {
+  color: #2563EB;
   text-decoration: underline;
 }
 
@@ -283,13 +308,15 @@ body.tour-not-started #summaryModal {
 ========================================================= */
 .welcome-card {
   position: absolute;
+  text-align: center;
   right: 40px;
   top: 100px;
   width: 400px;
-  max-height: 70vh; /* limits height to 70% of viewport */
-  background-color: rgba(0, 0, 0, 0.75);
-  padding: 30px;
-  border-radius: 0;
+  max-height: 70vh; 
+  background-color: rgba(255, 255, 255, 0.88);
+  color: #000;
+  backdrop-filter: blur(6px);
+  border-radius: 8px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
   pointer-events: auto;
   color: #fff;
@@ -304,12 +331,16 @@ body.tour-not-started #summaryModal {
 }
 
 .welcome-card::-webkit-scrollbar-thumb {
-  background: #555;
+  background: rgba(0, 0, 0, 0.25);
   border-radius: 3px;
 }
 
+.welcome-card::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+
 .welcome-card::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.06);
 }
 @keyframes slideInRight {
   from {
@@ -330,25 +361,25 @@ body.tour-not-started #summaryModal {
 
 .close-icon {
   margin-left: auto;
+    color: #000;
   font-size: 20px;
   cursor: pointer;
+    pointer-events: auto;
 }
 
 .welcome-card h1 {
-  font-size: 28px;
-  margin-bottom: 20px;
+  color: #000000;
 }
 
 .welcome-card p {
-  font-size: 15px;
-  line-height: 1.5;
-  margin-bottom: 15px;
+  color: #374151;
 }
 
 .card-actions {
   display: flex;
   justify-content: center;
   margin-top: 30px; 
+  margin-bottom: 20px;  
 }
 .action-btn {
   padding: 16px 20px;
@@ -374,12 +405,14 @@ contact us
   right: -450px; /* start off-screen */
   top: 100px;
   width: 400px;
-  background-color: rgba(0, 0, 0, 0.85);
+background-color: rgba(255, 255, 255, 0.9);
+color: #000;
+border-radius: 8px;
+backdrop-filter: blur(6px);
   padding: 30px;
   border-radius: 20px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
   pointer-events: auto;
-  color: #fff;
   display: block; /* keep visible for animation */
   max-height: 70vh;
   overflow-y: auto;
@@ -389,6 +422,10 @@ contact us
 /* Slide-in active state */
 .contact-card.active {
   right: 40px; /* final position */
+}
+.welcome-card,
+.contact-card {
+  pointer-events: auto;
 }
 
 /* =========================================================

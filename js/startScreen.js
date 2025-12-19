@@ -1,118 +1,183 @@
 document.addEventListener("DOMContentLoaded", () => {
+
+  /* =====================================================
+     CONSTANTS & ELEMENTS
+  ===================================================== */
   const startScreen = document.getElementById("startScreen");
-  const closeIcon = document.querySelector(".close-icon");
-  const websiteUrl = "https://www.unibz.it/en/faculties/engineering/research/software-engineering-autonomous-systems/lab/hola-hands-on-laboratory";
+  const websiteBtn = document.getElementById("action-btn");
 
-  // Visit Website button
-const websiteBtn = document.getElementById("action-btn");
-if (websiteBtn) {
-  websiteBtn.addEventListener("click", (e) => {
-    e.stopPropagation(); // prevent bubbling
-    window.open(websiteUrl, "_blank", "noopener,noreferrer");
-    // Don't start the tour
-  });
-}
-
-// Close/cancel inside welcome card
-if (closeIcon) {
-  closeIcon.addEventListener("click", (e) => {
-    e.stopPropagation(); // prevent bubbling
-    const welcomeCard = document.querySelector(".welcome-card");
-    if (welcomeCard) welcomeCard.style.display = "none"; // hide only the card
-    // Don't start the tour
-  });
-}
+  const websiteUrl =
+    "https://www.unibz.it/en/faculties/engineering/research/software-engineering-autonomous-systems/lab/hola-hands-on-laboratory";
 
   document.body.classList.add("tour-not-started");
 
-  const startTour = (videoId = "#vid1") => {
-    startScreen.style.display = "none";
-    document.body.classList.remove("tour-not-started");
 
-    const introSky = document.getElementById("introSky");
-    if (introSky) introSky.setAttribute("visible", "false");
+  /* =====================================================
+     WELCOME CARD LOGIC
+  ===================================================== */
 
-    const videosphere = document.getElementById("videosphere");
-    if (videosphere) videosphere.setAttribute("visible", "true");
-
-    const spots = document.getElementById("spots");
-    if (spots) spots.setAttribute("visible", "true");
-
-    if (window.changeVideo && videoId !== "#vid1") {
-      const groupId = `group-${videoId.replace('#', '')}`;
-      const name = "Location";
-      window.changeVideo(videoId, groupId, name, "0 0 0");
-    } else {
-      const vid1 = document.getElementById("vid1");
-      if (vid1) vid1.play().catch(e => console.log("Auto-play prevented:", e));
+  // Close welcome card (event delegation – robust)
+  document.addEventListener("click", (e) => {
+    if (e.target.classList.contains("close-icon")) {
+      e.stopPropagation();
+      const welcomeCard = e.target.closest(".welcome-card");
+      if (welcomeCard) {
+        welcomeCard.style.display = "none";
+      }
     }
-  };
+  });
 
-  // 3D Hotspot Click Handler
-  const entryHotspot = document.getElementById("entryHotspot");
-  const entryTooltip = document.getElementById("entryTooltip");
-
-  if (entryHotspot) {
-    entryHotspot.addEventListener("click", () => startTour("#vid1"));
-
-    entryHotspot.addEventListener("mouseenter", () => {
-      entryHotspot.setAttribute("scale", "1.3 1.3 1.3");
-      if (entryTooltip) entryTooltip.setAttribute("visible", "true");
-    });
-    entryHotspot.addEventListener("mouseleave", () => {
-      entryHotspot.setAttribute("scale", "1 1 1");
-      if (entryTooltip) entryTooltip.setAttribute("visible", "false");
+  // Visit website button
+  if (websiteBtn) {
+    websiteBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      window.open(websiteUrl, "_blank", "noopener,noreferrer");
     });
   }
 
-  // Menu Interactions
+/* =====================================================
+   HOME BUTTON – RELOAD PAGE
+===================================================== */
+const homeBtn = document.querySelector(".home-btn");
+
+if (homeBtn) {
+  homeBtn.addEventListener("click", (e) => {
+    e.preventDefault();   // stop # jump
+    window.location.reload();
+  });
+}
+
+  /* =====================================================
+     START TOUR FUNCTION
+  ===================================================== */
+  const startTour = (videoId = "#vid1") => {
+  // Hide start screen & entry hotspot
+  startScreen.style.display = "none";
+  toggleAFrameVisibility("entryHotspot", false);
+  toggleAFrameVisibility("entryTooltip", false);
+  document.body.classList.remove("tour-not-started");
+
+  // Show the main scene
+  toggleAFrameVisibility("introSky", false);
+  toggleAFrameVisibility("videosphere", true);
+  toggleAFrameVisibility("spots", true);
+
+  // Set video1 as active
+  const vid1 = document.getElementById("vid1");
+  if (vid1) {
+    document.querySelector("#videosphere").setAttribute("src", "#vid1");
+    vid1.play().catch(() => {});
+  }
+
+  // Show first hotspot group
+  const groupEl = document.getElementById("group-vid1");
+  if (groupEl) groupEl.setAttribute("scale", "1 1 1");
+
+  // Enable autorotate
+  isAutorotating = true;
+  const cam = document.getElementById("cam");
+  cam.setAttribute("look-controls", "enabled", false);
+
+  // Mark first tab as active & visited
+  const firstTab = document.querySelector("#topTabs .tab[data-video='vid1']");
+  if (firstTab) {
+    firstTab.classList.add("active");
+    window.visitedSpots.add(firstTab.textContent.trim());
+    const visitedCounter = document.getElementById("visitedCount");
+    if (visitedCounter) visitedCounter.textContent = window.visitedSpots.size;
+  }
+};
+
+
+  /* =====================================================
+     ENTRY HOTSPOT
+  ===================================================== */
+  const entryHotspot = document.getElementById("entryHotspot");
+  const entryTooltip = document.getElementById("entryTooltip");
+
+ if (entryHotspot) {
+  entryHotspot.addEventListener("click", (e) => {
+    e.stopPropagation();
+    startTour("#vid1");
+  });
+
+  entryHotspot.addEventListener("raycaster-intersected", () => {
+    entryHotspot.setAttribute("scale", "1.3 1.3 1.3");
+    entryTooltip?.setAttribute("visible", "true");
+  });
+
+  entryHotspot.addEventListener("raycaster-intersected-cleared", () => {
+    entryHotspot.setAttribute("scale", "1 1 1");
+    entryTooltip?.setAttribute("visible", "false");
+  });
+}
+  
+
+
+  /* =====================================================
+     SIDE DRAWER MENU
+  ===================================================== */
   const menuBurger = document.getElementById("menuBurger");
   const sideDrawer = document.getElementById("sideDrawer");
   const closeDrawer = document.getElementById("closeDrawer");
 
   if (menuBurger && sideDrawer && closeDrawer) {
-    menuBurger.addEventListener("click", () => sideDrawer.classList.add("open"));
-    closeDrawer.addEventListener("click", () => sideDrawer.classList.remove("open"));
-  }
-});
+    menuBurger.addEventListener("click", () =>
+      sideDrawer.classList.add("open")
+    );
 
-//contact us 
-document.addEventListener("DOMContentLoaded", () => {
+    closeDrawer.addEventListener("click", () =>
+      sideDrawer.classList.remove("open")
+    );
+  }
+
+
+  /* =====================================================
+     CONTACT PANEL
+  ===================================================== */
   const contactBtn = document.querySelector(".contact-btn");
   const contactPanel = document.getElementById("contactPanel");
   const closeContactPanel = document.getElementById("closeContactPanel");
   const sendContact = document.getElementById("sendContact");
 
-  // Open contact panel
-  if (contactBtn) {
+  if (contactBtn && contactPanel) {
     contactBtn.addEventListener("click", (e) => {
       e.preventDefault();
-      contactPanel.classList.add("active"); // slide in
+      contactPanel.classList.add("active");
     });
   }
 
-  // Close contact panel
-  if (closeContactPanel) {
-    closeContactPanel.addEventListener("click", () => {
-      contactPanel.classList.remove("active"); // slide out
-    });
+  if (closeContactPanel && contactPanel) {
+    closeContactPanel.addEventListener("click", () =>
+      contactPanel.classList.remove("active")
+    );
   }
 
-  // Send message
-  if (sendContact) {
+  if (sendContact && contactPanel) {
     sendContact.addEventListener("click", () => {
-      const email = document.getElementById("contactEmail").value;
-      const message = document.getElementById("contactMessage").value;
+      const email = document.getElementById("contactEmail")?.value;
+      const message = document.getElementById("contactMessage")?.value;
 
       if (!email || !message) {
         alert("Please fill out both fields.");
         return;
       }
 
-      // Open email client
-      window.location.href = `mailto:your@email.com?subject=Contact%20Form&body=${encodeURIComponent(message + "\n\nFrom: " + email)}`;
+      window.location.href =
+        `mailto:your@email.com?subject=Contact%20Form&body=` +
+        encodeURIComponent(`${message}\n\nFrom: ${email}`);
 
-      contactPanel.classList.remove("active"); // slide out
+      contactPanel.classList.remove("active");
     });
   }
+
+
+  /* =====================================================
+     HELPERS
+  ===================================================== */
+  function toggleAFrameVisibility(id, visible) {
+    const el = document.getElementById(id);
+    if (el) el.setAttribute("visible", visible);
+  }
+
 });
