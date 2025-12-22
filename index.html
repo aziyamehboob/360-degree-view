@@ -54,21 +54,21 @@
       <a href="#" class="menu-link contact-btn">Contact us</a>
     </div>
 
-    
+
     <!-- contact us -->
-<div class="contact-card" id="contactPanel">
-  <div class="card-header">
-    <h1>Contact Us</h1>
-    <span class="close-icon" id="closeContactPanel">&times;</span>
-  </div>
-  <div class="card-body">
-    <input type="email" id="contactEmail" placeholder="Your email">
-    <textarea id="contactMessage" placeholder="Your message"></textarea>
-  </div>
-  <div class="card-actions">
-    <button id="sendContact" class="action-btn primary">Send</button>
-  </div>
-</div>
+    <div class="contact-card" id="contactPanel">
+      <div class="card-header">
+        <h1>Contact Us</h1>
+        <span class="close-icon" id="closeContactPanel">&times;</span>
+      </div>
+      <div class="card-body">
+        <input type="email" id="contactEmail" placeholder="Your email">
+        <textarea id="contactMessage" placeholder="Your message"></textarea>
+      </div>
+      <div class="card-actions">
+        <button id="sendContact" class="action-btn primary">Send</button>
+      </div>
+    </div>
     <!-- Welcome Card (Right Overlay) -->
     <div class="welcome-card">
       <div class="card-header">
@@ -168,46 +168,29 @@
 
     <!-- INTRO SKYBOX (360 Start Screen) -->
     <!-- INTRO SKY -->
-<a-sky id="introSky"
-       src="assets/images/background_entry_point.JPG"
-       rotation="0 -90 0">
-</a-sky>
+    <a-sky id="introSky" src="assets/images/background_entry_point.JPG" rotation="0 -90 0">
+    </a-sky>
 
-<!-- ENTRY HOTSPOT (WORLD SPACE) -->
-<a-entity id="entryHotspot"
-          class="clickable"
-          position="0.08 1.5 -7.8"
-          rotation="0 -11 0"
-          geometry="primitive: circle; radius: 0.32"
-          material="opacity: 0; transparent: true"
-          animation="property: scale; from: 1 1 1; to: 1.2 1.2 1.2; dir: alternate; loop: true; dur: 1000">
+    <!-- ENTRY HOTSPOT (WORLD SPACE) -->
+    <a-entity id="entryHotspot" class="clickable" position="0.08 1.5 -7.8" rotation="0 -11 0"
+      geometry="primitive: circle; radius: 0.32" material="opacity: 0; transparent: true"
+      animation="property: scale; from: 1 1 1; to: 1.2 1.2 1.2; dir: alternate; loop: true; dur: 1000">
 
-<a-ring
-  radius-inner="0.22"
-  radius-outer="0.3"
-  material="color:#0000ff; opacity: 0.8; shader: flat; side: double">
-</a-ring>
+      <a-ring radius-inner="0.22" radius-outer="0.3" material="color:#0000ff; opacity: 0.8; shader: flat; side: double">
+      </a-ring>
 
-  <a-circle radius="0.12" position="0 0 0.001"   color="#0000ff" shader="flat"  side: double></a-circle>
+      <a-circle radius="0.12" position="0 0 0.001" color="#0000ff" shader="flat" side: double></a-circle>
 
-  <a-entity id="entryTooltip"
-            position="0 1.2 0.1"
-            visible="false"
-            geometry="primitive: plane; width: 3.5; height: 1.8"
-            material="color: #111111; opacity: 0.75; shader: flat; side: double">
-    <a-text value="LAB\nWelcome to the Hands-On Lab\nExplore our research facilities\nClick to enter"
-            align="center"
-            position="0 0 0.1"
-            color="#ffffff"
-            width="3.8"
-            wrap-count="30"
-            shader="msdf"
-            side="double"
-            font="https://raw.githubusercontent.com/etiennepinchon/aframe-fonts/master/fonts/roboto/Roboto-Bold.json">
-    </a-text>
-  </a-entity>
+      <a-entity id="entryTooltip" position="0 1.2 0.1" visible="false"
+        geometry="primitive: plane; width: 3.5; height: 1.8"
+        material="color: #111111; opacity: 0.75; shader: flat; side: double">
+        <a-text value="LAB\nWelcome to the Hands-On Lab\nExplore our research facilities\nClick to enter" align="center"
+          position="0 0 0.1" color="#ffffff" width="3.8" wrap-count="30" shader="msdf" side="double"
+          font="https://raw.githubusercontent.com/etiennepinchon/aframe-fonts/master/fonts/roboto/Roboto-Bold.json">
+        </a-text>
+      </a-entity>
 
-</a-entity>
+    </a-entity>
 
     <!-- HOTSPOTS CONTAINER -->
     <a-entity id="spots" hotspots visible="false">
@@ -217,80 +200,76 @@
         <!-- Collaboration Tables (Left) -->
 
         <a-entity class="clickable hotspot"
-              hotspot-hover-label="offsetY:0.55; baseWidth:3.0; baseScale:1.0; textColor:#000; panelColor:#fff"
-     arrow-hotspot="arrowScale:0.26; arrowOffsetZ:0.02; ringInner:0.55; ringOuter:0.6; ringColor:#0000ff; ringOpacity:0.9"
-    spot="linkto:#vid2; spotgroup:group-vid2; videoname: Collaboration Tables"
-  position="-10.19 -1.79 -0.03" rotation="77.54 -85.21 98.94" data-name="Collaboration Tables">
-</a-entity>
+          hotspot-hover-label="offsetY:1.3; baseWidth:3.0; baseScale:1.0; textColor:#000; panelColor:#fff"
+          arrow-hotspot="arrowScale:0.26; arrowOffsetZ:0.02; ringInner:0.55; ringOuter:0.6; ringColor:#0000ff; ringOpacity:0.9"
+          spot="linkto:#vid2; spotgroup:group-vid2; videoname: Collaboration Tables" position="-10.19 -1.79 -0.03"
+          rotation="77.54 -85.21 98.94" data-name="Collaboration Tables">
+        </a-entity>
 
 
-<a-entity class="clickable hotspot"
-hotspot-hover-label="offsetY:0.59; baseWidth:4; baseScale:1.8; textColor:#000; panelColor:#fff"
-arrow-hotspot="arrowScale:0.26; arrowOffsetZ:0.02; ringInner:0.55; ringOuter:0.6; ringColor:#0000ff; ringOpacity:0.9"
-  spot="linkto:#vid3; spotgroup:group-vid3; videoname: Lego Table"
-  position="-4.64 0.83 -18.60"
-  rotation="-69.16 15.90 -96.11"
-  data-name="Lego Table" >
-</a-entity>
+        <a-entity class="clickable hotspot"
+          hotspot-hover-label="offsetY:1.3; baseWidth:4; baseHeight:10;baseScale:1.8; textColor:#000; panelColor:#fff"
+          arrow-hotspot="arrowScale:0.26; arrowOffsetZ:0.02; ringInner:0.55; ringOuter:0.6; ringColor:#0000ff; ringOpacity:0.9"
+          spot="linkto:#vid3; spotgroup:group-vid3; videoname: Lego Table" position="-4.64 0.83 -18.60"
+          rotation="-69.16 15.90 -96.11" data-name="Lego Table">
+        </a-entity>
 
-<a-entity class="clickable hotspot"
-hotspot-hover-label="offsetY:0.55; baseWidth:4; baseScale:1.8; textColor:#000; panelColor:#fff"
-arrow-hotspot="arrowScale:0.26; arrowOffsetZ:0.02; ringInner:0.55; ringOuter:0.6; ringColor:#0000ff; ringOpacity:0.9"
-  spot="linkto:#vid4; spotgroup:group-vid4; videoname: workstations"
-position="-15.78 -1.07 -18.75" rotation="79 52 -98"
-  data-name="workstations">
-</a-entity>
+        <a-entity class="clickable hotspot"
+          hotspot-hover-label="offsetY:1.3; baseWidth:4; baseScale:1.8; textColor:#000; panelColor:#fff"
+          arrow-hotspot="arrowScale:0.26; arrowOffsetZ:0.02; ringInner:0.55; ringOuter:0.6; ringColor:#0000ff; ringOpacity:0.9"
+          spot="linkto:#vid4; spotgroup:group-vid4; videoname: workstations" position="-15.78 -1.07 -18.75"
+          rotation="79 52 -98" data-name="workstations">
+        </a-entity>
 
-<a-entity class="clickable hotspot"
-hotspot-hover-label="offsetY:0.55; baseWidth:3.5; baseScale:1.2; textColor:#000; panelColor:#fff"
-arrow-hotspot="arrowScale:0.26; arrowOffsetZ:0.02; ringInner:0.55; ringOuter:0.6; ringColor:#0000ff; ringOpacity:0.9"
-  spot="linkto:#vid5; spotgroup:group-vid5; videoname: Screen"
-position="-1.00 -0.36 15.82" rotation="-77.0 -179.1 -83.49"
-  data-name="Screen">
-</a-entity>
+        <a-entity class="clickable hotspot"
+          hotspot-hover-label="offsetY:1.3; baseWidth:3.5; baseScale:1.2; textColor:#000; panelColor:#fff"
+          arrow-hotspot="arrowScale:0.26; arrowOffsetZ:0.02; ringInner:0.55; ringOuter:0.6; ringColor:#0000ff; ringOpacity:0.9"
+          spot="linkto:#vid5; spotgroup:group-vid5; videoname: Screen" position="-1.00 -0.36 15.82"
+          rotation="-77.0 -179.1 -83.49" data-name="Screen">
+        </a-entity>
       </a-entity>
 
       <!-- GROUP vid2 -->
-   
-<a-entity id="group-vid2" scale="0 0 0">
+
+      <a-entity id="group-vid2" scale="0 0 0">
         <a-entity infoicon="text: For group discussions & teamwork; model: #iconModel; scale: 0.26 0.26 0.26;            ringInner: 0.5; 
               ringOuter: 0.55; 
-              ringOpacity: 0.8;"
-          position="-16.5 -5.1 -11.3" rotation="0 -32 0" class="clickable">
+              ringOpacity: 0.8;" position="-16.5 -5.1 -11.3" rotation="0 -32 0" class="clickable">
         </a-entity>
 
-        <a-entity infoicon="text:  Charging Hub 1: This hub supports fast charging for up to 4 devices simultaneously. Ideal for smartphones and tablets. Please ensure cables are compatible; model: #iconModel; scale: 0.26 0.26 0.26; ringInner:0.5; ringOuter:0.6"
+        <a-entity
+          infoicon="text:  Charging Hub 1: This hub supports fast charging for up to 4 devices simultaneously. Ideal for smartphones and tablets. Please ensure cables are compatible; model: #iconModel; scale: 0.26 0.26 0.26; ringInner:0.5; ringOuter:0.6"
           position="-13.5 -1.04 -2.15" rotation="0 -20 0" class="clickable">
         </a-entity>
 
-        <a-entity class="clickable hotspot" 
-        hotspot-hover-label="offsetY:0.55; baseWidth:4; baseScale:1.8; textColor:#000; panelColor:#fff"
-        arrow-hotspot="arrowScale:0.26; arrowOffsetZ:0.02; ringInner:0.55; ringOuter:0.6; ringColor:#0000ff; ringOpacity:0.9"
-        spot="linkto:#vid1; spotgroup:group-vid1; videoname: Entrance"
-       position="0.65 -0.11 -7.7" rotation="86.3 -1.34 -86.1" data-name="Entrance">
+        <a-entity class="clickable hotspot"
+          hotspot-hover-label="offsetY:0.55; baseWidth:4; baseScale:1.8; textColor:#000; panelColor:#fff"
+          arrow-hotspot="arrowScale:0.26; arrowOffsetZ:0.02; ringInner:0.55; ringOuter:0.6; ringColor:#0000ff; ringOpacity:0.9"
+          spot="linkto:#vid1; spotgroup:group-vid1; videoname: Entrance" position="0.65 -0.11 -7.7"
+          rotation="86.3 -1.34 -86.1" data-name="Entrance">
         </a-entity>
 
-        <a-entity class="clickable hotspot" hotspot-hover-label="offsetY:0.55; baseWidth:4; baseScale:1.8; textColor:#000; panelColor:#fff"
-        arrow-hotspot="arrowScale:0.26; arrowOffsetZ:0.02; ringInner:0.55; ringOuter:0.6; ringColor:#0000ff; ringOpacity:0.9"
-        spot="linkto:#vid3; spotgroup:group-vid3; videoname: Lego Table"
-        position="-23.5 0.92 -13.3" rotation="-86.0 62.7 -68.5"  data-name="Lego Table">
-        </a-entity
-        >
-        <a-entity class="clickable hotspot" 
-        hotspot-hover-label="offsetY:0.55; baseWidth:4; baseScale:1.8; textColor:#000; panelColor:#fff"
-        arrow-hotspot="arrowScale:0.26; arrowOffsetZ:0.02; ringInner:0.55; ringOuter:0.6; ringColor:#0000ff; ringOpacity:0.9"
-        spot="linkto:#vid4; spotgroup:group-vid4; videoname: workstations"
-        position="-19.1 1.6 1.66" rotation="-86.0 62.7 -68.5"  data-name="workstations">
+        <a-entity class="clickable hotspot"
+          hotspot-hover-label="offsetY:0.55; baseWidth:4; baseScale:1.8; textColor:#000; panelColor:#fff"
+          arrow-hotspot="arrowScale:0.26; arrowOffsetZ:0.02; ringInner:0.55; ringOuter:0.6; ringColor:#0000ff; ringOpacity:0.9"
+          spot="linkto:#vid3; spotgroup:group-vid3; videoname: Lego Table" position="-23.5 0.92 -13.3"
+          rotation="-86.0 62.7 -68.5" data-name="Lego Table">
+        </a-entity>
+        <a-entity class="clickable hotspot"
+          hotspot-hover-label="offsetY:0.55; baseWidth:4; baseScale:1.8; textColor:#000; panelColor:#fff"
+          arrow-hotspot="arrowScale:0.26; arrowOffsetZ:0.02; ringInner:0.55; ringOuter:0.6; ringColor:#0000ff; ringOpacity:0.9"
+          spot="linkto:#vid4; spotgroup:group-vid4; videoname: workstations" position="-19.1 1.6 1.66"
+          rotation="-86.0 62.7 -68.5" data-name="workstations">
         </a-entity>
 
-        <a-entity class="clickable hotspot" 
-        hotspot-hover-label="offsetY:0.55; baseWidth:4; baseScale:1.8; textColor:#000; panelColor:#fff"
-        arrow-hotspot="arrowScale:0.26; arrowOffsetZ:0.02; ringInner:0.55; ringOuter:0.6; ringColor:#0000ff; ringOpacity:0.9"
-        spot="linkto:#vid5; spotgroup:group-vid5; videoname: Screen"
-         src="#arrowModel" position="37.0 2.7 -33.38" rotation="84.2 129.7 131.8"  data-name="screen">
+        <a-entity class="clickable hotspot"
+          hotspot-hover-label="offsetY:0.55; baseWidth:4; baseScale:1.8; textColor:#000; panelColor:#fff"
+          arrow-hotspot="arrowScale:0.26; arrowOffsetZ:0.02; ringInner:0.55; ringOuter:0.6; ringColor:#0000ff; ringOpacity:0.9"
+          spot="linkto:#vid5; spotgroup:group-vid5; videoname: Screen" src="#arrowModel" position="37.0 2.7 -33.38"
+          rotation="84.2 129.7 131.8" data-name="screen">
         </a-entity>
       </a-entity>
-<!-- GROUP vid3 -->
+      <!-- GROUP vid3 -->
       <a-entity id="group-vid3" scale="0 0 0">
         <a-entity
           infoicon="text: 'This LEGO SPIKE Prime robot is used in our lab for hands-on learning in robotics, programming, and engineering'; model: #iconModel; scale: 0.36 0.36 0.36"
@@ -301,99 +280,98 @@ position="-1.00 -0.36 15.82" rotation="-77.0 -179.1 -83.49"
           position="-10.65 2.03 -2.26" rotation="0 0 0" class="clickable">
         </a-entity>
 
-        <a-entity class="clickable hotspot" 
-         hotspot-hover-label="offsetY:0.55; baseWidth:4; baseScale:1.8; textColor:#000; panelColor:#fff"
-        arrow-hotspot="arrowScale:0.26; arrowOffsetZ:0.02; ringInner:0.55; ringOuter:0.6; ringColor:#0000ff; ringOpacity:0.9"
-        spot="linkto:#vid1; spotgroup:group-vid1; videoname: Entrance"
-       position="13.15 2.23 -0.61" rotation="86.3 -47.04 -86.1" data-name="Entrance">
+        <a-entity class="clickable hotspot"
+          hotspot-hover-label="offsetY:0.55; baseWidth:4; baseScale:1.8; textColor:#000; panelColor:#fff"
+          arrow-hotspot="arrowScale:0.26; arrowOffsetZ:0.02; ringInner:0.55; ringOuter:0.6; ringColor:#0000ff; ringOpacity:0.9"
+          spot="linkto:#vid1; spotgroup:group-vid1; videoname: Entrance" position="13.15 2.23 -0.61"
+          rotation="86.3 -47.04 -86.1" data-name="Entrance">
         </a-entity>
 
         <a-entity class="clickable hotspot"
-         hotspot-hover-label="offsetY:0.55; baseWidth:4; baseScale:1.8; textColor:#000; panelColor:#fff"
-        arrow-hotspot="arrowScale:0.26; arrowOffsetZ:0.02; ringInner:0.55; ringOuter:0.6; ringColor:#0000ff; ringOpacity:0.9"
-          spot="linkto:#vid2; spotgroup:group-vid2; videoname: Collaboration Tables"
-         position="-2.8 2.31 50.4" rotation="88.8 0.003 99.3"  data-name="Collaboration Tables">
+          hotspot-hover-label="offsetY:0.55; baseWidth:4; baseScale:1.8; textColor:#000; panelColor:#fff"
+          arrow-hotspot="arrowScale:0.26; arrowOffsetZ:0.02; ringInner:0.55; ringOuter:0.6; ringColor:#0000ff; ringOpacity:0.9"
+          spot="linkto:#vid2; spotgroup:group-vid2; videoname: Collaboration Tables" position="-2.8 2.31 50.4"
+          rotation="88.8 0.003 99.3" data-name="Collaboration Tables">
         </a-entity>
 
         <a-entity class="clickable hotspot"
-         hotspot-hover-label="offsetY:0.55; baseWidth:4; baseScale:1.8; textColor:#000; panelColor:#fff"
-        arrow-hotspot="arrowScale:0.26; arrowOffsetZ:0.02; ringInner:0.55; ringOuter:0.6; ringColor:#0000ff; ringOpacity:0.9"
-         spot="linkto:#vid4; spotgroup:group-vid4; videoname: workstations"
-          position="-32.9 2.7 5.8" rotation="84.0 -90.0 82.1"  data-name="workstations">
+          hotspot-hover-label="offsetY:0.55; baseWidth:4; baseScale:1.8; textColor:#000; panelColor:#fff"
+          arrow-hotspot="arrowScale:0.26; arrowOffsetZ:0.02; ringInner:0.55; ringOuter:0.6; ringColor:#0000ff; ringOpacity:0.9"
+          spot="linkto:#vid4; spotgroup:group-vid4; videoname: workstations" position="-32.9 2.7 5.8"
+          rotation="84.0 -90.0 82.1" data-name="workstations">
         </a-entity>
-
-        <a-entity class="clickable hotspot" 
-         hotspot-hover-label="offsetY:0.55; baseWidth:4; baseScale:1.8; textColor:#000; panelColor:#fff"
-        arrow-hotspot="arrowScale:0.26; arrowOffsetZ:0.02; ringInner:0.55; ringOuter:0.6; ringColor:#0000ff; ringOpacity:0.9"
-        spot="linkto:#vid5; spotgroup:group-vid5; videoname: Screen"
-         position="78.0 12.0 79.8" rotation="85.0 -163.0 -131.9" 
-          data-name="screen"  >
-        </a-entity>
-        
-      <!-- GROUP vid4 -->
-      <a-entity id="group-vid4" scale="0 0 0">
-        <a-entity class="clickable hotspot" 
-         hotspot-hover-label="offsetY:0.55; baseWidth:4; baseScale:1.8; textColor:#000; panelColor:#fff"
-        arrow-hotspot="arrowScale:0.26; arrowOffsetZ:0.02; ringInner:0.55; ringOuter:0.6; ringColor:#0000ff; ringOpacity:0.9"
-        spot="linkto:#vid1; spotgroup:group-vid1; videoname: Entrance"
-          position="-1.53 0.82 -19.22" rotation="75 172 78"  data-name="Entrance">
-        </a-entity>
-
-        <a-entity class="clickable hotspot" 
-         hotspot-hover-label="offsetY:0.55; baseWidth:4; baseScale:1.8; textColor:#000; panelColor:#fff"
-        arrow-hotspot="arrowScale:0.26; arrowOffsetZ:0.02; ringInner:0.55; ringOuter:0.6; ringColor:#0000ff; ringOpacity:0.9"
-          spot="linkto:#vid2; spotgroup:group-vid2; videoname: Collaboration Tables"
-         position="10.09 -0.03 -7.85" rotation="77 172 122"  data-name="Collaboration Tables">
-        </a-entity>
-
-        <a-entity class="clickable hotspot" 
-         hotspot-hover-label="offsetY:0.55; baseWidth:4; baseScale:1.8; textColor:#000; panelColor:#fff"
-        arrow-hotspot="arrowScale:0.26; arrowOffsetZ:0.02; ringInner:0.55; ringOuter:0.6; ringColor:#0000ff; ringOpacity:0.9"
-        spot="linkto:#vid3; spotgroup:group-vid3; videoname: Lego Table"
-        position="-16.10 0.20 -13.3" rotation="-86.0 47.7 -68.5"  data-name="Lego Table">
-                    </a-entity>
-                      
-        <a-entity class="clickable hotspot" 
-         hotspot-hover-label="offsetY:0.55; baseWidth:4; baseScale:1.8; textColor:#000; panelColor:#fff"
-        arrow-hotspot="arrowScale:0.26; arrowOffsetZ:0.02; ringInner:0.55; ringOuter:0.6; ringColor:#0000ff; ringOpacity:0.9"
-        spot="linkto:#vid5; spotgroup:group-vid5; videoname: Screen"
-          position="37.0 2.7 -50.38" rotation="84.2 146.7 131.8"  data-name="Screen" >
-        </a-entity>
-      </a-entity>
-      <!-- GROUP vid5 -->
-      <a-entity id="group-vid5" scale="0 0 0">
 
         <a-entity class="clickable hotspot"
-         hotspot-hover-label="offsetY:0.55; baseWidth:4; baseScale:1.8; textColor:#000; panelColor:#fff"
-        arrow-hotspot="arrowScale:0.26; arrowOffsetZ:0.02; ringInner:0.55; ringOuter:0.6; ringColor:#0000ff; ringOpacity:0.9"
-         spot="linkto:#vid1; spotgroup:group-vid1; videoname: Entrance"
-           position="2.39 -0.11 16.34" rotation="-86 134 -37"  data-name="Entrance">
+          hotspot-hover-label="offsetY:0.55; baseWidth:4; baseScale:1.8; textColor:#000; panelColor:#fff"
+          arrow-hotspot="arrowScale:0.26; arrowOffsetZ:0.02; ringInner:0.55; ringOuter:0.6; ringColor:#0000ff; ringOpacity:0.9"
+          spot="linkto:#vid5; spotgroup:group-vid5; videoname: Screen" position="78.0 12.0 79.8"
+          rotation="85.0 -163.0 -131.9" data-name="screen">
+        </a-entity>
+
+        <!-- GROUP vid4 -->
+        <a-entity id="group-vid4" scale="0 0 0">
+          <a-entity class="clickable hotspot"
+            hotspot-hover-label="offsetY:0.55; baseWidth:4; baseScale:1.8; textColor:#000; panelColor:#fff"
+            arrow-hotspot="arrowScale:0.26; arrowOffsetZ:0.02; ringInner:0.55; ringOuter:0.6; ringColor:#0000ff; ringOpacity:0.9"
+            spot="linkto:#vid1; spotgroup:group-vid1; videoname: Entrance" position="-1.53 0.82 -19.22"
+            rotation="75 172 78" data-name="Entrance">
           </a-entity>
 
-        <a-entity class="clickable hotspot" 
-         hotspot-hover-label="offsetY:0.55; baseWidth:4; baseScale:1.8; textColor:#000; panelColor:#fff"
-        arrow-hotspot="arrowScale:0.26; arrowOffsetZ:0.02; ringInner:0.55; ringOuter:0.6; ringColor:#0000ff; ringOpacity:0.9"
-          spot="linkto:#vid2; spotgroup:group-vid2; videoname: Collaboration Tables"
-          position="16.8 -1.79 -3.23" rotation="87 0 0" data-name="Collaboration Tables">
-        </a-entity>
-
-        <a-entity class="clickable hotspot" 
-         hotspot-hover-label="offsetY:0.55; baseWidth:4; baseScale:1.8; textColor:#000; panelColor:#fff"
-        arrow-hotspot="arrowScale:0.26; arrowOffsetZ:0.02; ringInner:0.55; ringOuter:0.6; ringColor:#0000ff; ringOpacity:0.9"
-        spot="linkto:#vid3; spotgroup:group-vid3; videoname: Lego Table"
-        position="35.05 -1.02 24.5" rotation="80 26 20"  data-name="Lego Table">
-        </a-entity>
-        <a-entity class="clickable hotspot"
-         hotspot-hover-label="offsetY:0.55; baseWidth:4; baseScale:1.8; textColor:#000; panelColor:#fff"
-        arrow-hotspot="arrowScale:0.26; arrowOffsetZ:0.02; ringInner:0.55; ringOuter:0.6; ringColor:#0000ff; ringOpacity:0.9"
-         spot="linkto:#vid4; spotgroup:group-vid4; videoname: workstations"
-           position="22.0 0.36 4.76" rotation="-87 45 92" scale="0.26 0.26 0.26" data-name="workstations">
+          <a-entity class="clickable hotspot"
+            hotspot-hover-label="offsetY:0.55; baseWidth:4; baseScale:1.8; textColor:#000; panelColor:#fff"
+            arrow-hotspot="arrowScale:0.26; arrowOffsetZ:0.02; ringInner:0.55; ringOuter:0.6; ringColor:#0000ff; ringOpacity:0.9"
+            spot="linkto:#vid2; spotgroup:group-vid2; videoname: Collaboration Tables" position="10.09 -0.03 -7.85"
+            rotation="77 172 122" data-name="Collaboration Tables">
           </a-entity>
+
+          <a-entity class="clickable hotspot"
+            hotspot-hover-label="offsetY:0.55; baseWidth:4; baseScale:1.8; textColor:#000; panelColor:#fff"
+            arrow-hotspot="arrowScale:0.26; arrowOffsetZ:0.02; ringInner:0.55; ringOuter:0.6; ringColor:#0000ff; ringOpacity:0.9"
+            spot="linkto:#vid3; spotgroup:group-vid3; videoname: Lego Table" position="-16.10 0.20 -13.3"
+            rotation="-86.0 47.7 -68.5" data-name="Lego Table">
+          </a-entity>
+
+          <a-entity class="clickable hotspot"
+            hotspot-hover-label="offsetY:0.55; baseWidth:4; baseScale:1.8; textColor:#000; panelColor:#fff"
+            arrow-hotspot="arrowScale:0.26; arrowOffsetZ:0.02; ringInner:0.55; ringOuter:0.6; ringColor:#0000ff; ringOpacity:0.9"
+            spot="linkto:#vid5; spotgroup:group-vid5; videoname: Screen" position="37.0 2.7 -50.38"
+            rotation="84.2 146.7 131.8" data-name="Screen">
+          </a-entity>
+        </a-entity>
+        <!-- GROUP vid5 -->
+        <a-entity id="group-vid5" scale="0 0 0">
+
+          <a-entity class="clickable hotspot"
+            hotspot-hover-label="offsetY:0.55; baseWidth:4; baseScale:1.8; textColor:#000; panelColor:#fff"
+            arrow-hotspot="arrowScale:0.26; arrowOffsetZ:0.02; ringInner:0.55; ringOuter:0.6; ringColor:#0000ff; ringOpacity:0.9"
+            spot="linkto:#vid1; spotgroup:group-vid1; videoname: Entrance" position="2.39 -0.11 16.34"
+            rotation="-86 134 -37" data-name="Entrance">
+          </a-entity>
+
+          <a-entity class="clickable hotspot"
+            hotspot-hover-label="offsetY:0.55; baseWidth:4; baseScale:1.8; textColor:#000; panelColor:#fff"
+            arrow-hotspot="arrowScale:0.26; arrowOffsetZ:0.02; ringInner:0.55; ringOuter:0.6; ringColor:#0000ff; ringOpacity:0.9"
+            spot="linkto:#vid2; spotgroup:group-vid2; videoname: Collaboration Tables" position="16.8 -1.79 -3.23"
+            rotation="87 0 0" data-name="Collaboration Tables">
+          </a-entity>
+
+          <a-entity class="clickable hotspot"
+            hotspot-hover-label="offsetY:0.55; baseWidth:4; baseScale:1.8; textColor:#000; panelColor:#fff"
+            arrow-hotspot="arrowScale:0.26; arrowOffsetZ:0.02; ringInner:0.55; ringOuter:0.6; ringColor:#0000ff; ringOpacity:0.9"
+            spot="linkto:#vid3; spotgroup:group-vid3; videoname: Lego Table" position="35.05 -1.02 24.5"
+            rotation="80 26 20" data-name="Lego Table">
+          </a-entity>
+          <a-entity class="clickable hotspot"
+            hotspot-hover-label="offsetY:0.55; baseWidth:4; baseScale:1.8; textColor:#000; panelColor:#fff"
+            arrow-hotspot="arrowScale:0.26; arrowOffsetZ:0.02; ringInner:0.55; ringOuter:0.6; ringColor:#0000ff; ringOpacity:0.9"
+            spot="linkto:#vid4; spotgroup:group-vid4; videoname: workstations" position="22.0 0.36 4.76"
+            rotation="-87 45 92" scale="0.26 0.26 0.26" data-name="workstations">
+          </a-entity>
+        </a-entity>
       </a-entity>
+
+
     </a-entity>
-
-
-      </a-entity>
 
 
 

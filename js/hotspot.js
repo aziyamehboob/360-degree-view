@@ -25,7 +25,7 @@ AFRAME.registerComponent("spot", {
     videoname: { type: "string", default: "" }, // friendly name
     rotation: { type: "string", default: "" }
   },
-  init: function() {
+  init: function () {
     const el = this.el;
     const videosphere = document.querySelector("#videosphere");
     const pivotY = document.querySelector("#pivotY");
@@ -97,7 +97,7 @@ AFRAME.registerComponent("spot", {
 // Hotspots group visibility
 // ----------------------------
 AFRAME.registerComponent("hotspots", {
-  init: function() {
+  init: function () {
     this.el.addEventListener("showgroup", evt => {
       const groupId = evt.detail.group;
       document.querySelectorAll("[id^='group-']").forEach(g => g.setAttribute("scale", "0 0 0"));
@@ -110,32 +110,56 @@ AFRAME.registerComponent("hotspots", {
 // HOTSPOT HOVER LABEL
 // ----------------------------
 AFRAME.registerComponent('hotspot-hover-label', {
-  schema: { 
-    offsetY: { type: 'number', default: 0.15 }, // vertical offset above hotspot
+  schema: {
+    offsetY: { type: 'number', default: 0.3 }, // vertical offset above hotspot
     baseWidth: { type: 'number', default: 1.5 }, // text width
     baseScale: { type: 'number', default: 0.5 }, // text scale
-    textColor: { type: 'color', default: '#000' }, // text color
-    panelColor: { type: 'color', default: '#ffffff' }, // panel color
-    panelPadding: { type: 'number', default: 0.1 }, // extra space around text
+    textColor: { type: 'color', default: '#ffffff' }, // text color (white for contrast)
+    panelColor: { type: 'color', default: '#000000' }, // panel color (black)
+    panelPadding: { type: 'number', default: 0.2 }, // ~10px padding
+    borderColor: { type: 'color', default: '#ffffff' },
+    borderWidth: { type: 'number', default: 0.02 }, // ~2px border
+    cornerRadius: { type: 'number', default: 0.05 } // Rounded corners
   },
 
-  init: function() {
+  init: function () {
     const el = this.el;
     const sceneEl = el.sceneEl;
+    this.hideTimer = null;
+    this.isHovering = false;
 
     // Create root tooltip entity
     this.tooltip = document.createElement('a-entity');
     this.tooltip.setAttribute('visible', false);
 
-    // Background plane for tooltip
+    // Calculate dimensions
+    const contentHeight = 0.3;
+    const totalWidth = this.data.baseWidth + (this.data.panelPadding * 2);
+    const totalHeight = contentHeight + (this.data.panelPadding * 2);
+
+    // --- Border (Outer Box) ---
+    // Replaced a-rounded with a-plane for stability
+    const border = document.createElement('a-plane');
+    border.setAttribute('width', totalWidth + (this.data.borderWidth * 2));
+    border.setAttribute('height', totalHeight + (this.data.borderWidth * 2));
+    border.setAttribute('color', this.data.borderColor);
+    border.setAttribute('opacity', 1);
+    border.classList.add('clickable'); // Make interactive
+    border.object3D.position.set(0, 0, 0); // Centered
+    this.tooltip.appendChild(border);
+
+    // --- Background (Inner Box) ---
     const bg = document.createElement('a-plane');
-    bg.setAttribute('material', { color: this.data.panelColor, transparent: true, opacity: 0.8 });
-    bg.setAttribute('width', this.data.baseWidth + this.data.panelPadding);
-    bg.setAttribute('height', 0.3 + this.data.panelPadding);
-    bg.object3D.position.set(0, 0, 0); // centered
+    bg.setAttribute('width', totalWidth);
+    bg.setAttribute('height', totalHeight);
+    bg.setAttribute('color', this.data.panelColor);
+    bg.setAttribute('opacity', 0.9);
+    bg.classList.add('clickable'); // Make interactive
+    // Position slightly in front
+    bg.object3D.position.set(0, 0, 0.005);
     this.tooltip.appendChild(bg);
 
-    // Text
+    // --- Text ---
     const text = document.createElement('a-entity');
     text.setAttribute('text', {
       value: el.dataset.name || 'NO-NAME',
@@ -145,20 +169,50 @@ AFRAME.registerComponent('hotspot-hover-label', {
       wrapCount: 20,
       baseline: 'center'
     });
-    text.object3D.position.set(0, 0, 0.01); // slightly in front of panel
+    // Position in front of background
+    text.object3D.position.set(0, 0, 0.02);
     text.object3D.scale.set(this.data.baseScale, this.data.baseScale, this.data.baseScale);
     this.tooltip.appendChild(text);
 
     sceneEl.appendChild(this.tooltip);
     el.hoverText = this.tooltip;
 
-    // Hover show/hide
-    el.addEventListener('raycaster-intersected', () => {
-      this.tooltip.setAttribute('visible', true);
-    });
-    el.addEventListener('raycaster-intersected-cleared', () => {
-      this.tooltip.setAttribute('visible', false);
-    });
+    // ----- Hover Events Logic -----
+
+    // 1. Hover on Hotspot (Arrow)
+    el.addEventListener('raycaster-intersected', () => this.onHover());
+    el.addEventListener('raycaster-intersected-cleared', () => this.onHoverOut());
+
+    // 2. Hover on Tooltip (Border/Bg)
+    border.addEventListener('raycaster-intersected', () => this.onHover());
+    border.addEventListener('raycaster-intersected-cleared', () => this.onHoverOut());
+
+    bg.addEventListener('raycaster-intersected', () => this.onHover());
+    bg.addEventListener('raycaster-intersected-cleared', () => this.onHoverOut());
+  },
+
+  onHover: function () {
+    // Clear any pending hide timer
+    if (this.hideTimer) {
+      clearTimeout(this.hideTimer);
+      this.hideTimer = null;
+    }
+
+    // If already visible, do nothing
+    if (this.isHovering) return;
+
+    this.isHovering = true;
+    this.tooltip.setAttribute('visible', true);
+  },
+
+  onHoverOut: function () {
+    // Start a timer to hide. If we hover back in (on icon or box), it gets cleared.
+    this.hideTimer = setTimeout(() => {
+      if (this.hideTimer) {
+        this.tooltip.setAttribute('visible', false);
+        this.isHovering = false;
+      }
+    }, 1000); // 1 second delay
   },
 
   tick: function () {

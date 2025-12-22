@@ -5,7 +5,7 @@ AFRAME.registerComponent('infoicon', {
     scale: { type: 'vec3', default: { x: 0.36, y: 0.36, z: 0.36 } },
     ringInner: { type: 'number', default: 0.5 },
     ringOuter: { type: 'number', default: 0.55 },
-    ringColor: { type: 'color', default: '#0077ff'  },
+    ringColor: { type: 'color', default: '#0077ff' },
     ringOpacity: { type: 'number', default: 0.7 },
     textWidth: { type: 'number', default: 4 },
     panelPadding: { type: 'number', default: 0.2 },
@@ -29,7 +29,7 @@ AFRAME.registerComponent('infoicon', {
     this.ring.setAttribute('radius-inner', this.data.ringInner);
     this.ring.setAttribute('radius-outer', this.data.ringOuter);
     this.ring.setAttribute('material', `color: ${this.data.ringColor}; opacity: ${this.data.ringOpacity}; side: double; shader: flat`);
-    this.ring.object3D.position.set(0, 0, 0); 
+    this.ring.object3D.position.set(0, 0, 0);
     el.appendChild(this.ring);
 
     // ----- Tooltip Panel -----
